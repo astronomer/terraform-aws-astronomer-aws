@@ -14,10 +14,6 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"] # Canonical
 }
 
-provider "http" {
-  version = "1.1"
-}
-
 data "http" "local_ip" {
   url = "http://ipv4.icanhazip.com/s"
 }
