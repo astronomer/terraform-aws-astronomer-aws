@@ -7,7 +7,7 @@ module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "1.14.0"
 
-  name = "astronomer-${var.customer_id}-${var.environment}-vpc"
+  name = "${var.deployment_id}-astronomer-vpc"
 
   cidr = "10.${var.ten_dot_what_cidr}.0.0/16"
 
@@ -31,58 +31,19 @@ module "vpc" {
   # copied from (5/21/19):
   # https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html
   enable_dns_hostnames = true
-
   enable_dns_support = true
-
-  tags = "${local.tags}"
 
   public_subnet_tags = {
     "${var.cluster_type == "private" ? "bastion_subnet" : format("%s", "kubernetes.io/cluster/${local.cluster_name}")}" = "${var.cluster_type == "private" ? "1" : "shared"}"
   }
 
-  /*
-  public_subnet_tags = {
-    "kubernetes.io/cluster/${local.cluster_name}" = "shared"
-  }
-  */
-
   private_subnet_tags = {
     "kubernetes.io/cluster/${local.cluster_name}" = "shared"
     "kubernetes.io/role/internal-elb"             = "1"
   }
+
   vpc_tags = {
     "kubernetes.io/cluster/${local.cluster_name}" = "shared"
-  }
-}
-
-resource "aws_security_group" "worker_group_mgmt_one" {
-  name_prefix = "worker_group_mgmt_one"
-  description = "SG to be applied to all *nix machines"
-  vpc_id      = "${module.vpc.vpc_id}"
-
-  ingress {
-    from_port = 22
-    to_port   = 22
-    protocol  = "tcp"
-
-    cidr_blocks = [
-      "10.0.0.0/8",
-    ]
-  }
-}
-
-resource "aws_security_group" "worker_group_mgmt_two" {
-  name_prefix = "worker_group_mgmt_two"
-  vpc_id      = "${module.vpc.vpc_id}"
-
-  ingress {
-    from_port = 22
-    to_port   = 22
-    protocol  = "tcp"
-
-    cidr_blocks = [
-      "192.168.0.0/16",
-    ]
   }
 }
 

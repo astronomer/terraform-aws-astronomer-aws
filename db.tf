@@ -10,7 +10,7 @@ resource "random_string" "postgres_airflow_password" {
 
 module "aurora" {
   source                          = "terraform-aws-modules/rds-aurora/aws"
-  name                            = "${var.customer_id}astrodb"
+  name                            = "${var.deployment_id}astrodb"
   engine                          = "aurora-postgresql"
   engine_version                  = "10.6"
   subnets                         = ["${module.vpc.database_subnets}"]
@@ -18,7 +18,7 @@ module "aurora" {
   replica_count                   = 1
   instance_type                   = "${var.db_instance_type}"
   apply_immediately               = true
-  skip_final_snapshot             = "${ var.environment == "dev" ? true : false }"
+  skip_final_snapshot             = false
   db_parameter_group_name         = "${aws_db_parameter_group.aurora_db_postgres_parameter_group.id}"
   db_cluster_parameter_group_name = "${aws_rds_cluster_parameter_group.aurora_cluster_postgres_parameter_group.id}"
 
@@ -32,15 +32,15 @@ module "aurora" {
 }
 
 resource "aws_db_parameter_group" "aurora_db_postgres_parameter_group" {
-  name        = "${var.customer_id}-aurora-db-postgres-parameter-group"
+  name        = "${var.deployment_id}-aurora-db-postgres-parameter-group"
   family      = "aurora-postgresql10"
-  description = "${var.customer_id}-aurora-db-postgres-parameter-group"
+  description = "${var.deployment_id}-aurora-db-postgres-parameter-group"
 }
 
 resource "aws_rds_cluster_parameter_group" "aurora_cluster_postgres_parameter_group" {
-  name        = "${var.customer_id}-aurora-postgres-cluster-parameter-group"
+  name        = "${var.deployment_id}-aurora-postgres-cluster-parameter-group"
   family      = "aurora-postgresql10"
-  description = "${var.customer_id}-aurora-postgres-cluster-parameter-group"
+  description = "${var.deployment_id}-aurora-postgres-cluster-parameter-group"
 }
 
 # this permission is used to validate the connection
