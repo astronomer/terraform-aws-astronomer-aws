@@ -29,16 +29,17 @@ module "eks" {
   worker_additional_security_group_ids = ["${aws_security_group.all_worker_mgmt.id}"]
 
   map_roles = []
-
   map_accounts                    = []
   map_users                       = []
-  cluster_endpoint_private_access = "true"
-
-  cluster_endpoint_public_access = "${var.management_api == "public" ? true : false}"
-
   map_roles_count                = "0"
   map_users_count                = "0"
   map_accounts_count             = "0"
+
+  cluster_endpoint_private_access = "true"
+
+  cluster_endpoint_public_access = "${var.management_api == "public" ? true : false}"
+  # we cannot apply a config map when the EKS api is not public
+  manage_aws_auth                = "${var.management_api == "public" ? true : false}"
 
   worker_group_count = "1"
   worker_group_launch_template_count = "0"

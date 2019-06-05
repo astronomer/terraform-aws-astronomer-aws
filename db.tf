@@ -9,6 +9,7 @@ resource "random_string" "postgres_airflow_password" {
 }
 
 module "aurora" {
+  version                         = "1.13.0"
   source                          = "terraform-aws-modules/rds-aurora/aws"
   name                            = "${var.deployment_id}astrodb"
   engine                          = "aurora-postgresql"

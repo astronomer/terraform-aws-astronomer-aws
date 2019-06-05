@@ -1,5 +1,5 @@
 output "bastion_ssh_command" {
-  value = "ssh ubuntu@${aws_instance.bastion.public_ip}"
+  value = "ssh -i ${local_file.bastion_ssh_key_private.filename} ubuntu@${aws_instance.bastion.public_ip}"
 }
 
 output "kubeconfig" {
