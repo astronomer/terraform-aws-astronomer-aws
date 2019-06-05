@@ -11,12 +11,10 @@ output "kubeconfig" {
   sensitive = true
 }
 
-/*
 output "db_connection_string" {
-  value = "postgres://${google_sql_user.airflow.name}:${local.postgres_airflow_password}@${google_sql_database_instance.instance.private_ip_address}:5432"
+  value     = "postgres://${module.aurora.this_rds_cluster_master_username}:${module.aurora.this_rds_cluster_master_password}@${module.aurora.this_rds_cluster_endpoint}:${module.aurora.this_rds_cluster_port}"
   sensitive = true
 }
-*/
 
 output "tls_key" {
   value = "${acme_certificate.lets_encrypt.private_key_pem}"
