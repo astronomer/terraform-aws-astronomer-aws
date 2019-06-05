@@ -31,6 +31,11 @@ resource "aws_key_pair" "bastion_ssh_key" {
 resource "local_file" "bastion_ssh_key_private" {
   filename = "${pathexpand(format("~/.ssh/%s_bastion_ssh_key", var.deployment_id))}"
   sensitive_content = "${tls_private_key.ssh_key.private_key_pem}"
+
+  # make correct permissions on file
+  provisioner "local-exec" {
+    command = "chmod 400 ${local_file.bastion_ssh_key_private.filename}"
+  }
 }
 
 resource "aws_security_group" "bastion_sg" {
