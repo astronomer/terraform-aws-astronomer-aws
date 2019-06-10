@@ -4,8 +4,11 @@
 */
 
 module "vpc" {
+
   source  = "terraform-aws-modules/vpc/aws"
   version = "2.5.0"
+
+  create_vpc = "${var.vpc_id == "" ? true : false}"
 
   name = "${var.deployment_id}-astronomer-vpc"
 
@@ -49,7 +52,7 @@ module "vpc" {
 
 resource "aws_security_group" "all_worker_mgmt" {
   name_prefix = "all_worker_management"
-  vpc_id      = module.vpc.vpc_id
+  vpc_id      = local.vpc_id
 
   ingress {
     from_port = 22

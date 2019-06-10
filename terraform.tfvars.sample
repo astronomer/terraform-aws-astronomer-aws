@@ -1,3 +1,0 @@
-deployment_id = "steven"
-admin_email = "steven@astronomer.io"
-route53_domain = "steven-development.com"

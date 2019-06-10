@@ -10,14 +10,14 @@ module "eks" {
   cluster_name    = local.cluster_name
   cluster_version = var.cluster_version
 
-  subnets = module.vpc.private_subnets
+  subnets = local.private_subnets
   tags    = local.tags
-  vpc_id  = module.vpc.vpc_id
+  vpc_id  = local.vpc_id
 
   worker_groups = [
     {
       instance_type        = var.worker_instance_type
-      subnets              = join(",", module.vpc.private_subnets)
+      subnets              = join(",", local.private_subnets)
       asg_desired_capacity = var.min_cluster_size
       asg_min_size         = var.min_cluster_size
       asg_max_size         = var.max_cluster_size
