@@ -7,7 +7,7 @@ output "kubernetes_api_sample_command" {
 }
 
 output "kubeconfig" {
-  value = "${module.eks.kubeconfig}"
+  value     = module.eks.kubeconfig
   sensitive = true
 }
 
@@ -17,11 +17,12 @@ output "db_connection_string" {
 }
 
 output "tls_key" {
-  value = "${acme_certificate.lets_encrypt.private_key_pem}"
+  value     = acme_certificate.lets_encrypt.private_key_pem
   sensitive = true
 }
 
 output "tls_cert" {
-  value = "${acme_certificate.lets_encrypt.certificate_pem}"
+  value     = acme_certificate.lets_encrypt.certificate_pem
   sensitive = true
 }
+

@@ -5,13 +5,13 @@
 
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "1.14.0"
+  version = "2.5.0"
 
   name = "${var.deployment_id}-astronomer-vpc"
 
   cidr = "10.${var.ten_dot_what_cidr}.0.0/16"
 
-  azs = "${local.azs}"
+  azs = local.azs
 
   private_subnets  = ["10.${var.ten_dot_what_cidr}.1.0/24", "10.${var.ten_dot_what_cidr}.2.0/24"]
   public_subnets   = ["10.${var.ten_dot_what_cidr}.3.0/24", "10.${var.ten_dot_what_cidr}.4.0/24"]
@@ -31,10 +31,10 @@ module "vpc" {
   # copied from (5/21/19):
   # https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html
   enable_dns_hostnames = true
-  enable_dns_support = true
+  enable_dns_support   = true
 
   public_subnet_tags = {
-    "${var.cluster_type == "private" ? "bastion_subnet" : format("%s", "kubernetes.io/cluster/${local.cluster_name}")}" = "${var.cluster_type == "private" ? "1" : "shared"}"
+    var.cluster_type == "private" ? "bastion_subnet" : format("%s", "kubernetes.io/cluster/${local.cluster_name}") = var.cluster_type == "private" ? "1" : "shared"
   }
 
   private_subnet_tags = {
@@ -49,7 +49,7 @@ module "vpc" {
 
 resource "aws_security_group" "all_worker_mgmt" {
   name_prefix = "all_worker_management"
-  vpc_id      = "${module.vpc.vpc_id}"
+  vpc_id      = module.vpc.vpc_id
 
   ingress {
     from_port = 22
@@ -63,3 +63,4 @@ resource "aws_security_group" "all_worker_mgmt" {
     ]
   }
 }
+
