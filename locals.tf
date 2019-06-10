@@ -10,6 +10,12 @@ locals {
 
   azs = ["${var.aws_region}a", "${var.aws_region}b"]
 
+  vpc_id = "${var.vpc_id == "" ? module.vpc.vpc_id : var.vpc_id}"
+
+  private_subnets = "${var.vpc_id == "" ? module.vpc.private_subnets : var.private_subnets}"
+
+  public_subnets = "${var.vpc_id == "" ? module.vpc.public_subnets : []}"
+
   tags = {}
 }
 

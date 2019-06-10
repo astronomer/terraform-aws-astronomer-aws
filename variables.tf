@@ -22,6 +22,18 @@ variable "cluster_version" {
   type    = string
 }
 
+variable "vpc_id" {
+  default = ""
+  type = "string"
+  description = "The VPC ID, in the case that you do not want terraform to create a VPC with the default network settings on your behalf. If this setting is present, you should also have at least a 2 other subnets, each in a different availability zone, in the same region specified in aws_region."
+}
+
+variable "private_subnets" {
+  default = []
+  type = "list"
+  description = "This variable does nothing unless vpc_id is also set. Specify the subnet IDs in which the platform will be deployed"
+}
+
 variable "admin_email" {
   description = "An email address that will be used to create the let's encrypt cert"
   type        = string
@@ -75,7 +87,7 @@ variable "acme_server" {
 }
 
 variable "ten_dot_what_cidr" {
-  description = "10.X.0.0/16 - choose X"
+  description = "10.X.0.0/16 - choose X. This does nothing in the case that you specify vpc_id variable."
 
   # This is probably not that common
   default = "234"

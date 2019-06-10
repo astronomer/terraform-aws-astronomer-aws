@@ -17,8 +17,10 @@ module "aurora" {
   name                            = "${var.deployment_id}astrodb"
   engine                          = "aurora-postgresql"
   engine_version                  = "10.6"
-  subnets                         = module.vpc.database_subnets
-  vpc_id                          = module.vpc.vpc_id
+
+  subnets                         = "${var.vpc_id == "" ? module.vpc.database_subnets : local.private_subnets}"
+  vpc_id                          = local.vpc_id
+
   replica_count                   = 1
   instance_type                   = var.db_instance_type
   apply_immediately               = true
@@ -53,7 +55,7 @@ resource "aws_security_group_rule" "allow_access_from_bastion" {
   from_port                = module.aurora.this_rds_cluster_port
   to_port                  = module.aurora.this_rds_cluster_port
   protocol                 = "tcp"
-  source_security_group_id = aws_security_group.bastion_sg.id
+  source_security_group_id = aws_security_group.bastion_sg[0].id
   security_group_id        = module.aurora.this_security_group_id
 }
 
