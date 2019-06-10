@@ -25,13 +25,14 @@ resource "tls_private_key" "ssh_key" {
 
 resource "aws_key_pair" "bastion_ssh_key" {
   key_name   = "${var.deployment_id}_bastion_ssh_key"
-  public_key = "${tls_private_key.ssh_key.public_key_openssh}"
+  public_key = tls_private_key.ssh_key.public_key_openssh
 }
 
 resource "local_file" "bastion_ssh_key_private" {
-  filename = "${pathexpand(format("~/.ssh/%s_bastion_ssh_key", var.deployment_id))}"
-  sensitive_content = "${tls_private_key.ssh_key.private_key_pem}"
+  filename          = pathexpand(format("~/.ssh/%s_bastion_ssh_key", var.deployment_id))
+  sensitive_content = tls_private_key.ssh_key.private_key_pem
 
+  # make correct permissions on file
   # make correct permissions on file
   provisioner "local-exec" {
     command = "chmod 400 ${local_file.bastion_ssh_key_private.filename}"
@@ -41,7 +42,7 @@ resource "local_file" "bastion_ssh_key_private" {
 resource "aws_security_group" "bastion_sg" {
   name        = "astronomer_bastion_sg"
   description = "Allow SSH inbound traffic"
-  vpc_id      = "${module.vpc.vpc_id}"
+  vpc_id      = module.vpc.vpc_id
 
   ingress {
     # TLS (change to whatever ports you need)
@@ -61,12 +62,12 @@ resource "aws_security_group" "bastion_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = "${local.tags}"
+  tags = local.tags
 }
 
 resource "aws_security_group_rule" "bastion_connection_to_private_kube_api" {
   description       = "Connect the bastion to the EKS private endpoint"
-  security_group_id = "${module.eks.cluster_security_group_id}"
+  security_group_id = module.eks.cluster_security_group_id
 
   cidr_blocks = ["${aws_instance.bastion.private_ip}/32"]
   from_port   = 443
@@ -76,16 +77,16 @@ resource "aws_security_group_rule" "bastion_connection_to_private_kube_api" {
 }
 
 resource "aws_instance" "bastion" {
+  ami = data.aws_ami.ubuntu.id
 
-  ami = "${data.aws_ami.ubuntu.id}"
+  key_name = aws_key_pair.bastion_ssh_key.key_name
 
-  key_name = "${aws_key_pair.bastion_ssh_key.key_name}"
+  instance_type = var.bastion_instance_type
 
-  instance_type = "${var.bastion_instance_type}"
+  subnet_id = module.vpc.public_subnets[0]
 
-  subnet_id = "${module.vpc.public_subnets[0]}"
+  vpc_security_group_ids = [aws_security_group.bastion_sg.id]
 
-  vpc_security_group_ids = ["${aws_security_group.bastion_sg.id}"]
-
-  tags = "${local.tags}"
+  tags = local.tags
 }
+
