@@ -11,6 +11,10 @@ output "kubeconfig" {
   sensitive = true
 }
 
+output "kubeconfig_filename" {
+  value     = module.eks.kubeconfig_filename
+}
+
 output "db_connection_string" {
   value     = "postgres://${module.aurora.this_rds_cluster_master_username}:${module.aurora.this_rds_cluster_master_password}@${module.aurora.this_rds_cluster_endpoint}:${module.aurora.this_rds_cluster_port}"
   sensitive = true
@@ -26,3 +30,10 @@ output "tls_cert" {
   sensitive = true
 }
 
+output "vpc_id" {
+  value = local.vpc_id
+}
+
+output "private_subnets" {
+  value = local.private_subnets
+}

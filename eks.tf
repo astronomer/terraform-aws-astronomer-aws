@@ -17,7 +17,7 @@ module "eks" {
   worker_groups = [
     {
       instance_type        = var.worker_instance_type
-      subnets              = join(",", module.vpc.private_subnets)
+      subnets              = join(",", local.private_subnets)
       asg_desired_capacity = var.min_cluster_size
       asg_min_size         = var.min_cluster_size
       asg_max_size         = var.max_cluster_size

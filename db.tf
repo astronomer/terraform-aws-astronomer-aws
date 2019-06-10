@@ -51,6 +51,7 @@ resource "aws_rds_cluster_parameter_group" "aurora_cluster_postgres_parameter_gr
 
 # this permission is used to validate the connection
 resource "aws_security_group_rule" "allow_access_from_bastion" {
+  count = var.vpc_id == "" ? 1 : 0
   type                     = "ingress"
   from_port                = module.aurora.this_rds_cluster_port
   to_port                  = module.aurora.this_rds_cluster_port
