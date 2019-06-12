@@ -11,6 +11,10 @@ output "kubeconfig" {
   sensitive = true
 }
 
+output "base_domain" {
+  value = "${var.deployment_id}.${var.route53_domain}"
+}
+
 output "kubeconfig_filename" {
   value     = module.eks.kubeconfig_filename
 }
