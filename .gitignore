@@ -16,4 +16,4 @@ tls_secrets/*
 kubeconfig*
 config-map*
 *auth_configmap*
-*kube_config*
+*kube_config
