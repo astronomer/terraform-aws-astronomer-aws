@@ -34,6 +34,12 @@ variable "private_subnets" {
   description = "This variable does nothing unless vpc_id is also set. Specify the subnet IDs in which the platform will be deployed"
 }
 
+variable "public_subnets" {
+  default = []
+  type = "list"
+  description = "This variable does nothing unless vpc_id is also set. Specify the subnet ID(s) (you probably only want one) in the bastion will be deployed. This is not needed unless you are enabling the bastion host."
+}
+
 variable "admin_email" {
   description = "An email address that will be used to create the let's encrypt cert"
   type        = string
@@ -70,6 +76,11 @@ variable "db_instance_type" {
   type    = string
 }
 
+variable "enable_bastion" {
+  default = false
+  type    = string
+}
+
 variable "bastion_instance_type" {
   default = "t2.micro"
   type    = string
@@ -77,12 +88,6 @@ variable "bastion_instance_type" {
 
 variable "management_api" {
   default = "private"
-  type    = string
-}
-
-variable "acme_server" {
-  # default = "https://acme-staging-v02.api.letsencrypt.org/directory"
-  default = "https://acme-v02.api.letsencrypt.org/directory"
   type    = string
 }
 

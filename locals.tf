@@ -14,7 +14,7 @@ locals {
 
   private_subnets = "${var.vpc_id == "" ? module.vpc.private_subnets : var.private_subnets}"
 
-  public_subnets = "${var.vpc_id == "" ? module.vpc.public_subnets : []}"
+  public_subnets = "${var.vpc_id == "" ? module.vpc.public_subnets : var.public_subnets}"
 
   tags = {}
 }
