@@ -5,7 +5,7 @@ module "eks" {
   # source = "terraform-aws-modules/eks/aws"
   # version of the eks module to use
   # version = "4.0.2"
-  source = "./terraform-aws-eks"
+  source = "./modules/terraform-aws-eks"
 
   cluster_name    = local.cluster_name
   cluster_version = var.cluster_version
