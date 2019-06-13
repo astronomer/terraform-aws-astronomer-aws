@@ -13,7 +13,7 @@ module "aurora" {
   # that I copied locally.
   # version                         = "1.13.0"
   # source                          = "terraform-aws-modules/rds-aurora/aws"
-  source                          = "./terraform-aws-rds-aurora"
+  source                          = "./modules/terraform-aws-rds-aurora"
   name                            = "${var.deployment_id}astrodb"
   engine                          = "aurora-postgresql"
   engine_version                  = "10.6"
