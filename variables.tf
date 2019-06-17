@@ -99,3 +99,6 @@ variable "ten_dot_what_cidr" {
   type    = string
 }
 
+variable "tags" {
+  type = map(string)
+}
