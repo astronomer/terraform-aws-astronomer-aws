@@ -13,13 +13,13 @@ module "aurora" {
   # that I copied locally.
   # version                         = "1.13.0"
   # source                          = "terraform-aws-modules/rds-aurora/aws"
-  source                          = "./modules/terraform-aws-rds-aurora"
-  name                            = "${var.deployment_id}astrodb"
-  engine                          = "aurora-postgresql"
-  engine_version                  = "10.6"
+  source         = "./modules/terraform-aws-rds-aurora"
+  name           = "${var.deployment_id}astrodb"
+  engine         = "aurora-postgresql"
+  engine_version = "10.6"
 
-  subnets                         = "${var.vpc_id == "" ? module.vpc.database_subnets : local.private_subnets}"
-  vpc_id                          = local.vpc_id
+  subnets = "${var.vpc_id == "" ? module.vpc.database_subnets : local.private_subnets}"
+  vpc_id  = local.vpc_id
 
   replica_count                   = 1
   instance_type                   = var.db_instance_type
@@ -51,7 +51,7 @@ resource "aws_rds_cluster_parameter_group" "aurora_cluster_postgres_parameter_gr
 
 # this permission is used to validate the connection
 resource "aws_security_group_rule" "allow_access_from_bastion" {
-  count = var.enable_bastion ? 1 : 0
+  count                    = var.enable_bastion ? 1 : 0
   type                     = "ingress"
   from_port                = module.aurora.this_rds_cluster_port
   to_port                  = module.aurora.this_rds_cluster_port

@@ -6,7 +6,7 @@ and AWS Route 53
 
 resource "tls_private_key" "lets_encrypt_private_key" {
   algorithm = "RSA"
-  rsa_bits = "4096"
+  rsa_bits  = "4096"
 }
 
 resource "acme_registration" "user_registration" {
@@ -16,7 +16,7 @@ resource "acme_registration" "user_registration" {
 
 resource "tls_private_key" "cert_private_key" {
   algorithm = "RSA"
-  rsa_bits = "4096"
+  rsa_bits  = "4096"
 }
 
 resource "tls_cert_request" "req" {
@@ -25,15 +25,15 @@ resource "tls_cert_request" "req" {
   dns_names       = ["*.${var.deployment_id}.${var.route53_domain}"]
 
   subject {
-    common_name     = "*.${var.deployment_id}.${var.route53_domain}"
-    organization    = "Astronomer"
+    common_name  = "*.${var.deployment_id}.${var.route53_domain}"
+    organization = "Astronomer"
   }
 }
 
 resource "acme_certificate" "lets_encrypt" {
-  account_key_pem = acme_registration.user_registration.account_key_pem
+  account_key_pem         = acme_registration.user_registration.account_key_pem
   certificate_request_pem = tls_cert_request.req.cert_request_pem
-  key_type = "4096"
+  key_type                = "4096"
 
   dns_challenge {
     provider = "route53"
