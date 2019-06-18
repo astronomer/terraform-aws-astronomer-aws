@@ -299,7 +299,3 @@ variable "manage_worker_iam_resources" {
   type        = bool
   default     = true
 }
-
-variable "tags" {
-  type = map(string)
-}
