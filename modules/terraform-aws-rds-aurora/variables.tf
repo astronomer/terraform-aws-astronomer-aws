@@ -202,6 +202,3 @@ variable "engine_mode" {
   default     = "provisioned"
 }
 
-variable "tags" {
-  type = map(string)
-}
