@@ -300,3 +300,6 @@ variable "manage_worker_iam_resources" {
   default     = true
 }
 
+variable "tags" {
+  type = map(string)
+}
