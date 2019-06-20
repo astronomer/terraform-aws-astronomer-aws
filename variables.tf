@@ -99,3 +99,12 @@ variable "ten_dot_what_cidr" {
   type    = string
 }
 
+variable "peer_vpc_id" {
+  default = ""
+  type = string
+}
+
+variable "peer_account_id" {
+  default = ""
+  type = string
+}

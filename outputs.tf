@@ -44,3 +44,7 @@ output "vpc_id" {
 output "private_subnets" {
   value = local.private_subnets
 }
+
+output "elb_lookup_function_name" {
+  value = aws_lambda_function.elb_lookup.function_name
+}
