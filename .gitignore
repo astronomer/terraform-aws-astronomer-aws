@@ -18,3 +18,4 @@ config-map*
 *auth_configmap*
 *kube_config
 *.log
+*.tfvars*
