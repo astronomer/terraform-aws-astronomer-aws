@@ -35,6 +35,13 @@ module "aurora" {
   username            = "airflow"
   password            = local.postgres_airflow_password
   publicly_accessible = false
+
+  tags = "${merge(
+    local.tags,
+    map(
+      "Deployment ID", "${var.deployment_id}"
+    )
+  )}"
 }
 
 resource "aws_db_parameter_group" "aurora_db_postgres_parameter_group" {

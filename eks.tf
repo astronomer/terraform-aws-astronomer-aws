@@ -11,8 +11,8 @@ module "eks" {
   cluster_version = var.cluster_version
 
   subnets = local.private_subnets
-  tags    = local.tags
-  vpc_id  = local.vpc_id
+
+  vpc_id = local.vpc_id
 
   worker_groups = [
     {
@@ -46,5 +46,12 @@ module "eks" {
 
   worker_group_count                 = "1"
   worker_group_launch_template_count = "0"
+
+  tags = "${merge(
+    local.tags,
+    map(
+      "Deployment ID", "${var.deployment_id}"
+    )
+  )}"
 }
 

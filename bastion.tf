@@ -66,7 +66,12 @@ resource "aws_security_group" "bastion_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = local.tags
+  tags = "${merge(
+    local.tags,
+    map(
+      "Deployment ID", "${var.deployment_id}"
+    )
+  )}"
 }
 
 resource "aws_security_group_rule" "bastion_connection_to_private_kube_api" {
@@ -96,6 +101,11 @@ resource "aws_instance" "bastion" {
 
   vpc_security_group_ids = [aws_security_group.bastion_sg[0].id]
 
-  tags = local.tags
+  tags = "${merge(
+    local.tags,
+    map(
+      "Deployment ID", "${var.deployment_id}"
+    )
+  )}"
 }
 
