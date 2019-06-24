@@ -47,11 +47,6 @@ module "eks" {
   worker_group_count                 = "1"
   worker_group_launch_template_count = "0"
 
-  tags = "${merge(
-    local.tags,
-    map(
-      "Deployment ID", "${var.deployment_id}"
-    )
-  )}"
+  tags = local.tags
 }
 

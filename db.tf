@@ -14,7 +14,7 @@ module "aurora" {
   # version                         = "1.13.0"
   # source                          = "terraform-aws-modules/rds-aurora/aws"
   source         = "./modules/terraform-aws-rds-aurora"
-  name           = "${var.deployment_id}astrodb"
+  name           = "${var.deployment_id}-astrodb"
   engine         = "aurora-postgresql"
   engine_version = "10.6"
 
@@ -36,12 +36,7 @@ module "aurora" {
   password            = local.postgres_airflow_password
   publicly_accessible = false
 
-  tags = "${merge(
-    local.tags,
-    map(
-      "Deployment ID", "${var.deployment_id}"
-    )
-  )}"
+  tags = local.tags
 }
 
 resource "aws_db_parameter_group" "aurora_db_postgres_parameter_group" {
