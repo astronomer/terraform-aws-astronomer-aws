@@ -12,6 +12,7 @@ data "aws_ami" "ubuntu" {
   }
 
   owners = ["099720109477"] # Canonical
+  tags   = local.tags
 }
 
 data "http" "local_ip" {
@@ -66,12 +67,7 @@ resource "aws_security_group" "bastion_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = "${merge(
-    local.tags,
-    map(
-      "Deployment ID", "${var.deployment_id}"
-    )
-  )}"
+  tags = local.tags
 }
 
 resource "aws_security_group_rule" "bastion_connection_to_private_kube_api" {
@@ -88,24 +84,12 @@ resource "aws_security_group_rule" "bastion_connection_to_private_kube_api" {
 }
 
 resource "aws_instance" "bastion" {
-
-  count = var.enable_bastion ? 1 : 0
-
-  ami = data.aws_ami.ubuntu.id
-
-  key_name = aws_key_pair.bastion_ssh_key[0].key_name
-
-  instance_type = var.bastion_instance_type
-
-  subnet_id = local.public_subnets[0]
-
+  count                  = var.enable_bastion ? 1 : 0
+  ami                    = data.aws_ami.ubuntu.id
+  key_name               = aws_key_pair.bastion_ssh_key[0].key_name
+  instance_type          = var.bastion_instance_type
+  subnet_id              = local.public_subnets[0]
   vpc_security_group_ids = [aws_security_group.bastion_sg[0].id]
-
-  tags = "${merge(
-    local.tags,
-    map(
-      "Deployment ID", "${var.deployment_id}"
-    )
-  )}"
+  tags                   = local.tags
 }
 
