@@ -34,6 +34,9 @@ resource "acme_certificate" "lets_encrypt" {
 
   dns_challenge {
     provider = "route53"
+    config = {
+      AWS_PROPAGATION_TIMEOUT = 900
+    }
   }
 }
 
