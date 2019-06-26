@@ -19,3 +19,4 @@ config-map*
 *kube_config
 *.log
 *.tfvars*
+*.zip

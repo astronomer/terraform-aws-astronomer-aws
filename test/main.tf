@@ -9,7 +9,7 @@ module "astronomer_aws_with_vpc" {
   # version = "<fill me in>" # Look here https://registry.terraform.io/modules/astronomer/astronomer-aws/aws
   deployment_id = "test1"
   admin_email = "steven@astronomer.io"
-  route53_domain = "steven-development.com"
+  route53_domain = "astronomer-development.com"
 }
 
 # this is how the module can be called if you
@@ -19,7 +19,7 @@ module "astronomer_aws_in_specific_subnet" {
   source  = "../"
   deployment_id = "test2"
   admin_email = "steven@astronomer.io"
-  route53_domain = "steven-development.com"
+  route53_domain = "astronomer-development.com"
   vpc_id = module.astronomer_aws_with_vpc.vpc_id
   private_subnets = module.astronomer_aws_with_vpc.private_subnets
   management_api = "public"
