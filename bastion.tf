@@ -12,7 +12,6 @@ data "aws_ami" "ubuntu" {
   }
 
   owners = ["099720109477"] # Canonical
-  tags   = local.tags
 }
 
 data "http" "local_ip" {
