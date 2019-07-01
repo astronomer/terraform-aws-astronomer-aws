@@ -43,12 +43,14 @@ resource "aws_db_parameter_group" "aurora_db_postgres_parameter_group" {
   name        = "${var.deployment_id}-aurora-db-postgres-parameter-group"
   family      = "aurora-postgresql10"
   description = "${var.deployment_id}-aurora-db-postgres-parameter-group"
+  tags        = local.tags
 }
 
 resource "aws_rds_cluster_parameter_group" "aurora_cluster_postgres_parameter_group" {
   name        = "${var.deployment_id}-aurora-postgres-cluster-parameter-group"
   family      = "aurora-postgresql10"
   description = "${var.deployment_id}-aurora-postgres-cluster-parameter-group"
+  tags        = local.tags
 }
 
 # this permission is used to validate the connection
