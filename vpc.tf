@@ -8,7 +8,7 @@ module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "2.5.0"
 
-  create_vpc = "${var.vpc_id == "" ? true : false}"
+  create_vpc = var.vpc_id == "" ? true : false
 
   name = "${var.deployment_id}-astronomer-vpc"
 

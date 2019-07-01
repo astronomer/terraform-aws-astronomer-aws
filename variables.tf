@@ -104,3 +104,12 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+variable "peer_vpc_id" {
+  default = ""
+  type    = string
+}
+
+variable "peer_account_id" {
+  default = ""
+  type    = string
+}
