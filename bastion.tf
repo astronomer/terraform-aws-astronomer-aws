@@ -28,7 +28,6 @@ resource "aws_key_pair" "bastion_ssh_key" {
   count      = var.enable_bastion ? 1 : 0
   key_name   = "${var.deployment_id}_bastion_ssh_key"
   public_key = tls_private_key.ssh_key[0].public_key_openssh
-  tags       = local.tags
 }
 
 resource "local_file" "bastion_ssh_key_private" {
