@@ -23,20 +23,20 @@ variable "cluster_version" {
 }
 
 variable "vpc_id" {
-  default = ""
-  type = "string"
+  default     = ""
+  type        = "string"
   description = "The VPC ID, in the case that you do not want terraform to create a VPC with the default network settings on your behalf. If this setting is present, you should also have at least a 2 other subnets, each in a different availability zone, in the same region specified in aws_region."
 }
 
 variable "private_subnets" {
-  default = []
-  type = "list"
+  default     = []
+  type        = "list"
   description = "This variable does nothing unless vpc_id is also set. Specify the subnet IDs in which the platform will be deployed"
 }
 
 variable "public_subnets" {
-  default = []
-  type = "list"
+  default     = []
+  type        = "list"
   description = "This variable does nothing unless vpc_id is also set. Specify the subnet ID(s) (you probably only want one) in the bastion will be deployed. This is not needed unless you are enabling the bastion host."
 }
 
@@ -99,12 +99,17 @@ variable "ten_dot_what_cidr" {
   type    = string
 }
 
+variable "tags" {
+  description = "A map of tags to add to all resources."
+  type        = map(string)
+  default     = {}
+}
 variable "peer_vpc_id" {
   default = ""
-  type = string
+  type    = string
 }
 
 variable "peer_account_id" {
   default = ""
-  type = string
+  type    = string
 }

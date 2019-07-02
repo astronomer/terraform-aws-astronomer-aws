@@ -46,6 +46,8 @@ resource "aws_iam_role" "elb_lookup_role" {
   ]
 }
 EOF
+
+tags = local.tags
 }
 
 data "archive_file" "elb_lookup" {
@@ -69,4 +71,6 @@ resource "aws_lambda_function" "elb_lookup" {
       CLUSTER_NAME = "${local.cluster_name}"
     }
   }
+
+  tags = local.tags
 }

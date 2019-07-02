@@ -16,6 +16,11 @@ locals {
 
   public_subnets = "${var.vpc_id == "" ? module.vpc.public_subnets : var.public_subnets}"
 
-  tags = {}
+  tags = merge(
+    var.tags,
+    map(
+      "Deployment ID", "${var.deployment_id}"
+    )
+  )
 }
 

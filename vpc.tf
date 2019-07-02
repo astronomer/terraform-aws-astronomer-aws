@@ -48,6 +48,8 @@ module "vpc" {
   vpc_tags = {
     "kubernetes.io/cluster/${local.cluster_name}" = "shared"
   }
+
+  tags = local.tags
 }
 
 resource "aws_security_group" "all_worker_mgmt" {
@@ -65,5 +67,7 @@ resource "aws_security_group" "all_worker_mgmt" {
       "192.168.0.0/16",
     ]
   }
+
+  tags = local.tags
 }
 

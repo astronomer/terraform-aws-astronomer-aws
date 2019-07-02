@@ -23,16 +23,15 @@ resource "tls_cert_request" "req" {
   dns_names       = ["*.${var.deployment_id}.${var.route53_domain}"]
 
   subject {
-    common_name     = "*.${var.deployment_id}.${var.route53_domain}"
-    organization    = "Astronomer"
+    common_name  = "*.${var.deployment_id}.${var.route53_domain}"
+    organization = "Astronomer"
   }
 }
 
 resource "acme_certificate" "lets_encrypt" {
-  account_key_pem = acme_registration.user_registration.account_key_pem
+  account_key_pem         = acme_registration.user_registration.account_key_pem
   certificate_request_pem = tls_cert_request.req.cert_request_pem
-
-  recursive_nameservers = ["8.8.8.8:53", "8.8.4.4:53"]
+  recursive_nameservers   = ["8.8.8.8:53", "8.8.4.4:53"]
 
   dns_challenge {
     provider = "route53"
