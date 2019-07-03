@@ -11,9 +11,9 @@ resource "random_string" "postgres_airflow_password" {
 module "aurora" {
   # does not support Terraform 0.12 in registry, but there was a PR
   # that I copied locally.
-  # version                         = "1.13.0"
-  # source                          = "terraform-aws-modules/rds-aurora/aws"
-  source         = "./modules/terraform-aws-rds-aurora"
+  version = "2.2.0"
+  source  = "terraform-aws-modules/rds-aurora/aws"
+  # source         = "./modules/terraform-aws-rds-aurora"
   name           = "${var.deployment_id}-astrodb"
   engine         = "aurora-postgresql"
   engine_version = "10.6"
