@@ -2,10 +2,10 @@
 module "eks" {
   # Until the 0.12 support PRs are merged, we use a local
   # copy of the pending PRs
-  # source = "terraform-aws-modules/eks/aws"
+  source = "terraform-aws-modules/eks/aws"
   # version of the eks module to use
-  # version = "4.0.2"
-  source = "./modules/terraform-aws-eks"
+  version = "5.0.0"
+  # source = "./modules/terraform-aws-eks"
 
   cluster_name    = local.cluster_name
   cluster_version = var.cluster_version
@@ -17,7 +17,6 @@ module "eks" {
   worker_groups = [
     {
       instance_type        = var.worker_instance_type
-      subnets              = join(",", local.private_subnets)
       asg_desired_capacity = var.min_cluster_size
       asg_min_size         = var.min_cluster_size
       asg_max_size         = var.max_cluster_size
@@ -30,12 +29,9 @@ module "eks" {
 
   worker_additional_security_group_ids = [aws_security_group.all_worker_mgmt.id]
 
-  map_roles          = []
-  map_accounts       = []
-  map_users          = []
-  map_roles_count    = "0"
-  map_users_count    = "0"
-  map_accounts_count = "0"
+  map_roles    = []
+  map_accounts = []
+  map_users    = []
 
   cluster_endpoint_private_access = "true"
 
@@ -43,9 +39,6 @@ module "eks" {
 
   # we cannot apply a config map when the EKS api is not public
   manage_aws_auth = var.management_api == "public" ? true : false
-
-  worker_group_count                 = "1"
-  worker_group_launch_template_count = "0"
 
   tags = local.tags
 }

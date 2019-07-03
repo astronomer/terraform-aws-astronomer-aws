@@ -10,6 +10,7 @@ module "astronomer_aws_with_vpc" {
   deployment_id = "test1"
   admin_email = "steven@astronomer.io"
   route53_domain = "astronomer-development.com"
+  management_api = "public"
 }
 
 # this is how the module can be called if you
