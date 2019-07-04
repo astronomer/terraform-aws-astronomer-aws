@@ -1,0 +1,30 @@
+kind: pipeline
+name: terraform-aws-astronomer-aws
+
+#      - push
+#      - pull_request
+#      - tag
+#      - promote
+#      - rollback
+
+steps:
+
+- name: lint
+  image: hashicorp/terraform:light
+  commands:
+  - terraform init
+  - terraform fmt -check=true
+  - terraform validate -var "deployment_id=validate" -var "route53_domain=validate-fake.com" -var "admin_email=fake@mailinator.com"
+  - |
+    for example in $(find examples -maxdepth 1 -mindepth 1 -type d); do
+    cd $example
+    terraform init
+    terraform fmt -check=true
+    terraform validate
+    cd -
+    done
+  - terraform -v
+  when:
+    event:
+      - pull_request
+      - push
