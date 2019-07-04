@@ -23,7 +23,7 @@ locals {
   tags = merge(
     var.tags,
     map(
-      "Deployment ID", "${var.deployment_id}"
+      "Deployment ID", var.deployment_id
     )
   )
 }

@@ -46,7 +46,7 @@ steps:
     event:
       - push
 
-- name: cleanup_failure_from_scratch
+- name: from_scratch_cleanup
   depends_on:
     - from_scratch
   image: hashicorp/terraform:light

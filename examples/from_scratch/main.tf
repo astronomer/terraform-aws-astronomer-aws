@@ -16,7 +16,7 @@ module "astronomer_aws_with_vpc" {
   # the above "../.." if you want to consume this remotely
   # source  = "astronomer/astronomer-aws/aws"
   # version = "<fill me in>" # Look here https://registry.terraform.io/modules/astronomer/astronomer-aws/aws
-  deployment_id  = "fromscratchci${random_id.ci_collision_avoidance.hex}"
+  deployment_id  = "fromscratchci"
   admin_email    = "steven@astronomer.io"
   route53_domain = "astronomer-development.com"
   management_api = "public"
