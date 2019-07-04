@@ -1,3 +1,5 @@
+variable deployment_id {}
+
 # This is a sample vpc configuration
 # you may choose to use your own, existing
 # VPC.

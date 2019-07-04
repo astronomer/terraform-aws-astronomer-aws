@@ -14,6 +14,7 @@ steps:
       for example in $(find examples -maxdepth 1 -mindepth 1 -type d); do
       cp providers.tf $example
       cd $example
+      echo $example
       terraform init
       terraform fmt -check=true
       terraform validate -var "deployment_id=citest"
