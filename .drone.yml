@@ -16,7 +16,7 @@ steps:
       cd $example
       terraform init
       terraform fmt -check=true
-      terraform validate
+      terraform validate -var "deployment_id=citest"
       cd -
       done
     - terraform -v
@@ -40,7 +40,7 @@ steps:
     - cd examples/from_scratch
     - sed -i "s/REPLACE/$DRONE_BUILD_NUMBER/g" backend.tf
     - terraform init
-    - terraform apply --auto-approve
+    - terraform apply --auto-approve -var "deployment_id=fromscratch$DRONE_BUILD_NUMBER"
     - terraform -v
   when:
     event:
@@ -61,7 +61,7 @@ steps:
     - cd examples/from_scratch
     - sed -i "s/REPLACE/$DRONE_BUILD_NUMBER/g" backend.tf
     - terraform init
-    - terraform destroy --auto-approve
+    - terraform destroy --auto-approve -var "deployment_id=fromscratch$DRONE_BUILD_NUMBER"
     - terraform -v
   when:
     event:

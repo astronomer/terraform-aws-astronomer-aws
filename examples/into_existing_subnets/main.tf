@@ -21,21 +21,12 @@ module "vpc" {
 
 }
 
-# This resource is just to enable us to
-# run multiple pipelines at the same time.
-# It randomizes the deployment_id, an argument
-# specifically designed for the case of collision
-# avoidance and labeling.
-resource random_id "ci_collision_avoidance" {
-  byte_length = 4
-}
-
 # this is how the module can be called if you
 # want to deploy into a set of existing, private subnets
 module "astronomer_aws_in_specific_subnet" {
   # same idea above - use a different 'source', and specify 'version'
   source         = "../.."
-  deployment_id  = "subnetsci${random_id.ci_collision_avoidance.hex}"
+  deployment_id  = var.deployment_id
   admin_email    = "steven@astronomer.io"
   route53_domain = "astronomer-development.com"
   management_api = "public"
