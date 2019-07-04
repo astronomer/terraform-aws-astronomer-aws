@@ -12,21 +12,13 @@ steps:
 - name: lint
   image: hashicorp/terraform:light
   commands:
-    - |
-      echo <<EOS
-      provider "aws" {
-        region = "us-east-1"
-      }
-
-      provider "acme" {
-        server_url = "https://acme-staging-v02.api.letsencrypt.org/directory"
-      }
-      EOS > providers.tf
+    - cp providers.tf.example providers.tf
     - terraform init
     - terraform fmt -check=true
     - terraform validate -var "deployment_id=validate" -var "route53_domain=validate-fake.com" -var "admin_email=fake@mailinator.com"
     - |
       for example in $(find examples -maxdepth 1 -mindepth 1 -type d); do
+      cp providers.tf $example
       cd $example
       terraform init
       terraform fmt -check=true
