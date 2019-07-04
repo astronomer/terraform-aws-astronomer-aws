@@ -1,3 +1,11 @@
+provider "aws" {
+  region = "us-east-1"
+}
+
+provider "acme" {
+  server_url = "https://acme-staging-v02.api.letsencrypt.org/directory"
+}
+
 # This is a sample vpc configuration
 # you may choose to use your own, existing
 # VPC.
@@ -34,8 +42,8 @@ resource random_id "ci_collision_avoidance" {
 # want to deploy into a set of existing, private subnets
 module "astronomer_aws_in_specific_subnet" {
   # same idea above - use a different 'source', and specify 'version'
-  source         = "../"
-  deployment_id  = "subnetsci${random_id.collision_avoidance.hex}"
+  source         = "../.."
+  deployment_id  = "subnetsci${random_id.ci_collision_avoidance.hex}"
   admin_email    = "steven@astronomer.io"
   route53_domain = "astronomer-development.com"
   management_api = "public"

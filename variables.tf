@@ -51,11 +51,6 @@ variable "postgres_airflow_password" {
   type        = string
 }
 
-variable "aws_region" {
-  default = "us-east-1"
-  type    = string
-}
-
 variable "max_cluster_size" {
   default = "8"
   type    = string
