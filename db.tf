@@ -1,5 +1,5 @@
 resource "random_id" "db_name_suffix" {
-  byte_length = 4
+  byte_length = 8
 }
 
 resource "random_string" "postgres_airflow_password" {
@@ -14,7 +14,7 @@ module "aurora" {
   version = "2.2.0"
   source  = "terraform-aws-modules/rds-aurora/aws"
   # source         = "./modules/terraform-aws-rds-aurora"
-  name           = "${var.deployment_id}-astrodb-${random_id.db_name_suffix.hex}"
+  name           = "astrodb-${random_id.db_name_suffix.hex}"
   engine         = "aurora-postgresql"
   engine_version = "10.6"
 
