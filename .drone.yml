@@ -1,12 +1,6 @@
 kind: pipeline
 name: terraform-aws-astronomer-aws
 
-#      - push
-#      - pull_request
-#      - tag
-#      - promote
-#      - rollback
-
 steps:
 
 - name: lint
@@ -30,3 +24,48 @@ steps:
     event:
       - pull_request
       - push
+
+- name: from_scratch
+  image: hashicorp/terraform:light
+  depends_on:
+    - lint
+  environment:
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+  commands:
+    - cp providers.tf.example examples/from_scratch/providers.tf
+    - cp backend.tf.example examples/from_scratch/backend.tf
+    - cd examples/from_scratch
+    - sed -i "s/REPLACE/$DRONE_BUILD_NUMBER/g" backend.tf
+    - terraform init
+    - terraform apply --auto-approve
+    - terraform -v
+  when:
+    event:
+      - push
+
+- name: cleanup_failure_from_scratch
+  depends_on:
+    - from_scratch
+  image: hashicorp/terraform:light
+  environment:
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+  commands:
+    - cp providers.tf.example examples/from_scratch/providers.tf
+    - cp backend.tf.example examples/from_scratch/backend.tf
+    - cd examples/from_scratch
+    - sed -i "s/REPLACE/$DRONE_BUILD_NUMBER/g" backend.tf
+    - terraform init
+    - terraform destroy --auto-approve
+    - terraform -v
+  when:
+    event:
+      - push
+    status:
+      - failure
+      - success
