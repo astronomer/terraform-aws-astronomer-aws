@@ -29,10 +29,6 @@ module "eks" {
 
   worker_additional_security_group_ids = [aws_security_group.all_worker_mgmt.id]
 
-  map_roles    = []
-  map_accounts = []
-  map_users    = []
-
   cluster_endpoint_private_access = "true"
 
   cluster_endpoint_public_access = var.management_api == "public" ? true : false
