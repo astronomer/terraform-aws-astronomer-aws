@@ -17,6 +17,11 @@ variable "route53_domain" {
   type        = string
 }
 
+variable "admin_email" {
+  description = "An email address that will be used to create the let's encrypt cert"
+  type        = string
+}
+
 variable "cluster_version" {
   default = "1.12"
   type    = string
@@ -40,20 +45,10 @@ variable "public_subnets" {
   description = "This variable does nothing unless vpc_id is also set. Specify the subnet ID(s) (you probably only want one) in the bastion will be deployed. This is not needed unless you are enabling the bastion host."
 }
 
-variable "admin_email" {
-  description = "An email address that will be used to create the let's encrypt cert"
-  type        = string
-}
-
 variable "postgres_airflow_password" {
   default     = ""
   description = "The password for the 'airflow' user in postgres. If blank, will be auto-generated"
   type        = string
-}
-
-variable "aws_region" {
-  default = "us-east-1"
-  type    = string
 }
 
 variable "max_cluster_size" {

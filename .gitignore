@@ -20,3 +20,4 @@ config-map*
 *.log
 *.tfvars*
 *.zip
+examples/*/.terraform

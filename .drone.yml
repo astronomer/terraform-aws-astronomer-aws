@@ -1,0 +1,125 @@
+kind: pipeline
+name: terraform-aws-astronomer-aws
+
+steps:
+
+- name: lint
+  image: hashicorp/terraform:light
+  commands:
+    - cp providers.tf.example providers.tf
+    - terraform init
+    - terraform fmt -check=true
+    - terraform validate -var "deployment_id=validate" -var "route53_domain=validate-fake.com" -var "admin_email=fake@mailinator.com"
+    - |
+      for example in $(find examples -maxdepth 1 -mindepth 1 -type d); do
+      cp providers.tf $example
+      cd $example
+      echo $example
+      terraform init
+      terraform fmt -check=true
+      terraform validate -var "deployment_id=citest"
+      cd -
+      done
+    - terraform -v
+  when:
+    event:
+      - pull_request
+      - push
+
+- name: from_scratch
+  image: hashicorp/terraform:light
+  depends_on:
+    - lint
+  environment:
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+  commands:
+    - cp providers.tf.example examples/from_scratch/providers.tf
+    - cp backend.tf.example examples/from_scratch/backend.tf
+    - cd examples/from_scratch
+    - sed -i "s/REPLACE/$DRONE_BUILD_NUMBER/g" backend.tf
+    - terraform init
+    - terraform apply --auto-approve -var "deployment_id=fromscratch$DRONE_BUILD_NUMBER"
+    - terraform -v
+  when:
+    event:
+      - push
+    branch:
+      - master
+
+- name: from_scratch_cleanup
+  depends_on:
+    - from_scratch
+  image: hashicorp/terraform:light
+  environment:
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+  commands:
+    - cp providers.tf.example examples/from_scratch/providers.tf
+    - cp backend.tf.example examples/from_scratch/backend.tf
+    - cd examples/from_scratch
+    - sed -i "s/REPLACE/$DRONE_BUILD_NUMBER/g" backend.tf
+    - terraform init
+    - terraform destroy --auto-approve -var "deployment_id=fromscratch$DRONE_BUILD_NUMBER" -refresh=false
+    - terraform -v
+  when:
+    event:
+      - push
+    status:
+      - failure
+      - success
+    branch:
+      - master
+
+- name: into_subnets
+  image: hashicorp/terraform:light
+  depends_on:
+    - lint
+  environment:
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+  commands:
+    - cp providers.tf.example examples/into_existing_subnets/providers.tf
+    - cp backend.tf.example examples/into_existing_subnets/backend.tf
+    - cd examples/into_existing_subnets
+    - sed -i "s/REPLACE/$DRONE_BUILD_NUMBERintosubnets/g" backend.tf
+    - terraform init
+    - terraform apply --auto-approve -var "deployment_id=intosubnets$DRONE_BUILD_NUMBER"
+    - terraform -v
+  when:
+    event:
+      - push
+    branch:
+      - master
+
+- name: into_subnets_cleanup
+  depends_on:
+    - into_subnets
+  image: hashicorp/terraform:light
+  environment:
+    AWS_ACCESS_KEY_ID:
+      from_secret: AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY:
+      from_secret: AWS_SECRET_ACCESS_KEY
+  commands:
+    - cp providers.tf.example examples/into_existing_subnets/providers.tf
+    - cp backend.tf.example examples/into_existing_subnets/backend.tf
+    - cd examples/into_existing_subnets
+    - sed -i "s/REPLACE/$DRONE_BUILD_NUMBERintosubnets/g" backend.tf
+    - terraform init
+    - terraform destroy --auto-approve -var "deployment_id=intosubnets$DRONE_BUILD_NUMBER" -refresh=false
+    - terraform -v
+  when:
+    event:
+      - push
+    status:
+      - failure
+      - success
+    branch:
+      - master
