@@ -46,6 +46,8 @@ steps:
   when:
     event:
       - push
+    branch:
+      - master
 
 - name: from_scratch_cleanup
   depends_on:
@@ -70,6 +72,8 @@ steps:
     status:
       - failure
       - success
+    branch:
+      - master
 
 - name: into_subnets
   image: hashicorp/terraform:light
@@ -91,6 +95,8 @@ steps:
   when:
     event:
       - push
+    branch:
+      - master
 
 - name: into_subnets_cleanup
   depends_on:
@@ -115,3 +121,5 @@ steps:
     status:
       - failure
       - success
+    branch:
+      - master
