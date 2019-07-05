@@ -88,7 +88,7 @@ steps:
     - cp providers.tf.example examples/into_existing_subnets/providers.tf
     - cp backend.tf.example examples/into_existing_subnets/backend.tf
     - cd examples/into_existing_subnets
-    - sed -i "s/REPLACE/$DRONE_BUILD_NUMBERintosubnets/g" backend.tf
+    - sed -i "s/REPLACE/intosubnets$DRONE_BUILD_NUMBER/g" backend.tf
     - terraform init
     - terraform apply --auto-approve -var "deployment_id=intosubnets$DRONE_BUILD_NUMBER"
     - terraform -v
@@ -111,7 +111,7 @@ steps:
     - cp providers.tf.example examples/into_existing_subnets/providers.tf
     - cp backend.tf.example examples/into_existing_subnets/backend.tf
     - cd examples/into_existing_subnets
-    - sed -i "s/REPLACE/$DRONE_BUILD_NUMBERintosubnets/g" backend.tf
+    - sed -i "s/REPLACE/intosubnets$DRONE_BUILD_NUMBER/g" backend.tf
     - terraform init
     - terraform destroy --auto-approve -var "deployment_id=intosubnets$DRONE_BUILD_NUMBER" -refresh=false
     - terraform -v
