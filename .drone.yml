@@ -39,9 +39,9 @@ steps:
     - cp providers.tf.example examples/from_scratch/providers.tf
     - cp backend.tf.example examples/from_scratch/backend.tf
     - cd examples/from_scratch
-    - sed -i "s/REPLACE/$DRONE_BUILD_NUMBER/g" backend.tf
+    - sed -i "s/REPLACE/$DRONE_REPO_NAME$DRONE_BUILD_NUMBER/g" backend.tf
     - terraform init
-    - terraform apply --auto-approve -var "deployment_id=fromscratch$DRONE_BUILD_NUMBER"
+    - terraform apply --auto-approve -var "deployment_id=fromscratch$DRONE_REPO_NAME$DRONE_BUILD_NUMBER"
     - terraform -v
   when:
     event:
@@ -62,9 +62,9 @@ steps:
     - cp providers.tf.example examples/from_scratch/providers.tf
     - cp backend.tf.example examples/from_scratch/backend.tf
     - cd examples/from_scratch
-    - sed -i "s/REPLACE/$DRONE_BUILD_NUMBER/g" backend.tf
+    - sed -i "s/REPLACE/$DRONE_REPO_NAME$DRONE_BUILD_NUMBER/g" backend.tf
     - terraform init
-    - terraform destroy --auto-approve -var "deployment_id=fromscratch$DRONE_BUILD_NUMBER" -refresh=false
+    - terraform destroy --auto-approve -var "deployment_id=fromscratch$DRONE_REPO_NAME$DRONE_BUILD_NUMBER" -refresh=false
     - terraform -v
   when:
     event:
@@ -88,9 +88,10 @@ steps:
     - cp providers.tf.example examples/into_existing_subnets/providers.tf
     - cp backend.tf.example examples/into_existing_subnets/backend.tf
     - cd examples/into_existing_subnets
-    - sed -i "s/REPLACE/intosubnets$DRONE_BUILD_NUMBER/g" backend.tf
+    - sed -i "s/REPLACE/intosubnets$DRONE_REPO_NAME$DRONE_BUILD_NUMBER/g" backend.tf
     - terraform init
-    - terraform apply --auto-approve -var "deployment_id=intosubnets$DRONE_BUILD_NUMBER"
+    - terraform apply --auto-approve -var "deployment_id=intosubnets$DRONE_REPO_NAME$DRONE_BUILD_NUMBER" --target=module.vpc
+    - terraform apply --auto-approve -var "deployment_id=intosubnets$DRONE_REPO_NAME$DRONE_BUILD_NUMBER"
     - terraform -v
   when:
     event:
@@ -111,9 +112,9 @@ steps:
     - cp providers.tf.example examples/into_existing_subnets/providers.tf
     - cp backend.tf.example examples/into_existing_subnets/backend.tf
     - cd examples/into_existing_subnets
-    - sed -i "s/REPLACE/intosubnets$DRONE_BUILD_NUMBER/g" backend.tf
+    - sed -i "s/REPLACE/intosubnets$DRONE_REPO_NAME$DRONE_BUILD_NUMBER/g" backend.tf
     - terraform init
-    - terraform destroy --auto-approve -var "deployment_id=intosubnets$DRONE_BUILD_NUMBER" -refresh=false
+    - terraform destroy --auto-approve -var "deployment_id=intosubnets$DRONE_REPO_NAME$DRONE_BUILD_NUMBER" -refresh=false
     - terraform -v
   when:
     event:
