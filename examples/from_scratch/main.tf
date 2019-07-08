@@ -13,6 +13,7 @@ module "astronomer_aws_with_vpc" {
   admin_email    = "steven@astronomer.io"
   route53_domain = "astronomer-development.com"
   management_api = "public"
+  enable_bastion = true
   tags = {
     "CI" = "true"
   }

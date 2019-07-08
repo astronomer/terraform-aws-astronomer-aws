@@ -108,3 +108,9 @@ variable "peer_account_id" {
   default = ""
   type    = string
 }
+
+variable "bastion_astro_cli_version" {
+  default     = "v0.9.3-alpha.2"
+  type        = string
+  description = "The version of astro-cli to install on the bastion host"
+}
