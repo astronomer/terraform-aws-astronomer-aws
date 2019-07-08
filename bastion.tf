@@ -89,6 +89,11 @@ resource "aws_instance" "bastion" {
   instance_type          = var.bastion_instance_type
   subnet_id              = local.public_subnets[0]
   vpc_security_group_ids = [aws_security_group.bastion_sg[0].id]
-  tags                   = local.tags
+  user_data              = <<EOS
+  apt-get update
+  apt-get install -y tinyproxy
+  apt-get install -y docker.io
+  curl -sSL https://install.astronomer.io | bash -s -- ${var.bastion_astro_cli_version}
+  EOS
+  tags = local.tags
 }
-
