@@ -117,6 +117,6 @@ variable "bastion_astro_cli_version" {
 
 variable "extra_sg_ids_for_eks_security" {
   description = "A list of security groups that you want to add in security access to private eks cluster"
-  default    = []
-  type       = list
+  default     = []
+  type        = list
 }
