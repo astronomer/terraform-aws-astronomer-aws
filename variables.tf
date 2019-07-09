@@ -114,3 +114,9 @@ variable "bastion_astro_cli_version" {
   type        = string
   description = "The version of astro-cli to install on the bastion host"
 }
+
+variable "extra_sg_ids_for_eks_security" {
+  description = "A list of security groups that you want to add in security access to private eks cluster"
+  default     = []
+  type        = list
+}
