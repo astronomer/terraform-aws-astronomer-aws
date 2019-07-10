@@ -9,11 +9,12 @@ module "astronomer_aws_with_vpc" {
   # the above "../.." if you want to consume this remotely
   # source  = "astronomer/astronomer-aws/aws"
   # version = "<fill me in>" # Look here https://registry.terraform.io/modules/astronomer/astronomer-aws/aws
-  deployment_id  = var.deployment_id
-  admin_email    = "steven@astronomer.io"
-  route53_domain = "astronomer-development.com"
-  management_api = "public"
-  enable_bastion = true
+  deployment_id      = var.deployment_id
+  admin_email        = "steven@astronomer.io"
+  route53_domain     = "astronomer-development.com"
+  management_api     = "public"
+  enable_bastion     = true
+  enable_windows_box = true
   tags = {
     "CI" = "true"
   }
