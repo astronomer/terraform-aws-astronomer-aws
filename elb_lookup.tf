@@ -57,7 +57,7 @@ data "archive_file" "elb_lookup" {
 }
 
 resource "aws_lambda_function" "elb_lookup" {
-  depends_on       = ["data.archive_file.elb_lookup"]
+  depends_on       = [data.archive_file.elb_lookup, aws_iam_role_policy.elb_lookup_policy]
   filename         = "${path.module}/elb_lookup.py.zip"
   function_name    = "${var.deployment_id}_elb_lookup_function${random_id.collision_avoidance.hex}"
   role             = "${aws_iam_role.elb_lookup_role.arn}"
