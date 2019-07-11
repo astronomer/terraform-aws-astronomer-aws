@@ -54,3 +54,11 @@ resource "null_resource" "dependency_setter" {}
 output "depended_on" {
   value = "${null_resource.dependency_setter.id}-${timestamp()}"
 }
+
+output "windows_debug_box_password" {
+  value = "${rsadecrypt(aws_instance.windows_debug_box[0].password_data, tls_private_key.ssh_key[0].private_key_pem)}"
+}
+
+output "windows_debug_box_hostname" {
+  value = aws_instance.windows_debug_box[0].public_dns
+}

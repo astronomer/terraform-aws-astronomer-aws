@@ -76,6 +76,11 @@ variable "enable_bastion" {
   type    = string
 }
 
+variable "enable_windows_box" {
+  default = false
+  type    = string
+}
+
 variable "bastion_instance_type" {
   default = "t2.micro"
   type    = string

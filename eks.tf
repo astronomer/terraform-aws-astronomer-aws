@@ -23,12 +23,6 @@ module "eks" {
     },
   ]
 
-  # We are not using the 'launch templates' feature at this time
-  # this is a feature for deploying workers on Spot instances.
-  # worker_groups_launch_template        = "${local.worker_groups_launch_template}"
-
-  worker_additional_security_group_ids = [aws_security_group.all_worker_mgmt.id]
-
   cluster_endpoint_private_access = "true"
 
   cluster_endpoint_public_access = var.management_api == "public" ? true : false
@@ -38,4 +32,3 @@ module "eks" {
 
   tags = local.tags
 }
-
