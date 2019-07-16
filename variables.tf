@@ -66,6 +66,11 @@ variable "worker_instance_type" {
   type    = string
 }
 
+variable "pub_key_for_worker_aws_key_pair" {
+  default = ""
+  type    = string
+}
+
 variable "db_instance_type" {
   default = "db.r4.large"
   type    = string
