@@ -1,7 +1,7 @@
 # Create the EKS cluster
 resource "aws_key_pair" "worker_group_key_name" {
-  count = "${var.pub_key_for_worker_aws_key_pair != "" ? 1 : 0}"
-  public_key = "${var.pub_key_for_worker_aws_key_pair}"
+  count      = var.pub_key_for_worker_aws_key_pair != "" ? 1 : 0
+  public_key = var.pub_key_for_worker_aws_key_pair
 }
 
 
@@ -26,7 +26,7 @@ module "eks" {
       asg_desired_capacity = var.min_cluster_size
       asg_min_size         = var.min_cluster_size
       asg_max_size         = var.max_cluster_size
-      key_name             = "${var.pub_key_for_worker_aws_key_pair != "" ? aws_key_pair.worker_group_key_name[0].key_name  : ""}" 
+      key_name             = var.pub_key_for_worker_aws_key_pair != "" ? aws_key_pair.worker_group_key_name[0].key_name : ""
     },
   ]
 
