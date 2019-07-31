@@ -22,11 +22,13 @@ module "eks" {
 
   worker_groups = [
     {
+      name                 = "${var.deployment_id}-worker-nodes"
       instance_type        = var.worker_instance_type
       asg_desired_capacity = var.min_cluster_size
       asg_min_size         = var.min_cluster_size
       asg_max_size         = var.max_cluster_size
       key_name             = var.pub_key_for_worker_aws_key_pair != "" ? aws_key_pair.worker_group_key_name[0].key_name : ""
+      autoscaling_enabled  = true
     },
   ]
 

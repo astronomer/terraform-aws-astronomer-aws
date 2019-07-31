@@ -19,6 +19,10 @@ output "kubeconfig_filename" {
   value = module.eks.kubeconfig_filename
 }
 
+output "cluster_name" {
+  value = module.eks.cluster_id
+}
+
 output "db_connection_string" {
   value     = "postgres://${module.aurora.this_rds_cluster_master_username}:${module.aurora.this_rds_cluster_master_password}@${module.aurora.this_rds_cluster_endpoint}:${module.aurora.this_rds_cluster_port}"
   sensitive = true
