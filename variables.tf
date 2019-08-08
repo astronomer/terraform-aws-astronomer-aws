@@ -71,6 +71,11 @@ variable "pub_key_for_worker_aws_key_pair" {
   type    = string
 }
 
+variable "workers_additional_policies" {
+  default = []
+  type    = list
+}
+
 variable "db_instance_type" {
   default = "db.r4.large"
   type    = string

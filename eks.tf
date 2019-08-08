@@ -32,6 +32,8 @@ module "eks" {
     },
   ]
 
+  workers_additional_policies = var.workers_additional_policies
+
   cluster_endpoint_private_access = "true"
 
   cluster_endpoint_public_access = var.management_api == "public" ? true : false
