@@ -47,7 +47,7 @@ resource "aws_iam_role" "elb_lookup_role" {
 }
 EOF
 
-tags = local.tags
+  tags = local.tags
 }
 
 data "archive_file" "elb_lookup" {
