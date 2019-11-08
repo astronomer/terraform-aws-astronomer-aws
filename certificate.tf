@@ -10,7 +10,7 @@ resource "tls_private_key" "lets_encrypt_private_key" {
 
 resource "acme_registration" "user_registration" {
   count = var.lets_encrypt ? 1 : 0
-  
+
   account_key_pem = tls_private_key.lets_encrypt_private_key.private_key_pem
   email_address   = var.admin_email
 }
