@@ -1,5 +1,5 @@
 output "bastion_proxy_command" {
-  value = "ssh -i ${local_file.bastion_ssh_key_private[0].filename} ubuntu@${aws_instance.bastion[0].public_ip} -D 1234 -C -N"
+  value = length(aws_instance.bastion) > 0 ? "ssh -i ${local_file.bastion_ssh_key_private[0].filename} ubuntu@${aws_instance.bastion[0].public_ip} -D 1234 -C -N" : "Not applicable - no bastion"
 }
 
 output "kubernetes_api_sample_command" {
