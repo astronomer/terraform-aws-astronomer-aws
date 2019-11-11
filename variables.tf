@@ -130,3 +130,8 @@ variable "extra_sg_ids_for_eks_security" {
   default     = []
   type        = list
 }
+
+variable "lets_encrypt" {
+  type    = bool
+  default = true
+}

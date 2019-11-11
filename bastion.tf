@@ -148,22 +148,22 @@ resource "aws_instance" "bastion" {
   apt-get install -y docker.io
   curl -sSL https://install.astronomer.io | bash -s -- ${var.bastion_astro_cli_version}
   EOS
-  tags = local.tags
+  tags                   = local.tags
 }
 
 resource "aws_instance" "windows_debug_box" {
-  count = var.enable_windows_box ? 1 : 0
-  ami = data.aws_ami.windows.id
-  key_name = aws_key_pair.bastion_ssh_key[0].key_name
-  instance_type = "t2.medium"
-  subnet_id = local.public_subnets[0]
-  get_password_data = true
+  count                  = var.enable_windows_box ? 1 : 0
+  ami                    = data.aws_ami.windows.id
+  key_name               = aws_key_pair.bastion_ssh_key[0].key_name
+  instance_type          = "t2.medium"
+  subnet_id              = local.public_subnets[0]
+  get_password_data      = true
   vpc_security_group_ids = [aws_security_group.windows_debug_box[0].id]
-  user_data = <<EOS
+  user_data              = <<EOS
   <script>
   @"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
   choco install -y firefox
   </script>
   EOS
-  tags = local.tags
+  tags                   = local.tags
 }
