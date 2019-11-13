@@ -38,8 +38,6 @@ steps:
   when:
     event:
       - push
-    branch:
-      - master
 
 - name: from_scratch_cleanup
   image: hashicorp/terraform:light
@@ -56,8 +54,6 @@ steps:
     status:
       - failure
       - success
-    branch:
-      - master
 
 - name: git_tag
   image: docker:git
