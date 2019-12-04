@@ -1,6 +1,9 @@
 import os
 import boto3
 
+def chunker(seq, size):
+    return (seq[pos:pos + size] for pos in range(0, len(seq), size))
+
 def _generate_lb_name_and_tags(client=None,
                                clientv2=None):
     ''' Generate tuples (LB name, tag description)
@@ -37,21 +40,23 @@ def _generate_lb_name_and_tags(client=None,
 
         # get the tags by LB name for the case of ELBv1
         if len(load_balancer_names_in_vpc) > 0:
-            response = client.describe_tags(
-                LoadBalancerNames=load_balancer_names_in_vpc)
-            for description in response['TagDescriptions']:
-                yield description['LoadBalancerName'], description
+            for chunk in chunker(load_balancer_names_in_vpc, 19):
+                response = client.describe_tags(
+                    LoadBalancerNames=chunk)
+                for description in response['TagDescriptions']:
+                    yield description['LoadBalancerName'], description
 
         # get the tags by LB ARN for the case of ELBv2
         if len(nlb_load_balancer_arns_in_vpc) > 0:
-            response2 = clientv2.describe_tags(
-                ResourceArns=nlb_load_balancer_arns_in_vpc)
-            for description in response2['TagDescriptions']:
-                arn = description['ResourceArn']
-                for lb in nlb_load_balancers:
-                    if lb['LoadBalancerArn'] == arn:
-                        yield lb['LoadBalancerName'], description
-                        break
+            for chunk in chunker(nlb_load_balancer_arns_in_vpc, 19):
+                response2 = clientv2.describe_tags(
+                    ResourceArns=chunk)
+                for description in response2['TagDescriptions']:
+                    arn = description['ResourceArn']
+                    for lb in nlb_load_balancers:
+                        if lb['LoadBalancerArn'] == arn:
+                            yield lb['LoadBalancerName'], description
+                            break
 
         # If there is not a remaing page on either API,
         # then exit
