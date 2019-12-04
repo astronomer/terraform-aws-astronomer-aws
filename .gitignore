@@ -21,3 +21,4 @@ config-map*
 *.tfvars*
 *.zip
 examples/*/.terraform
+*/__pycache__
