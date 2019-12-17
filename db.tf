@@ -18,10 +18,10 @@ module "aurora" {
   engine         = "aurora-postgresql"
   engine_version = "10.6"
 
-  subnets = "${var.vpc_id == "" ? module.vpc.database_subnets : local.private_subnets}"
+  subnets = local.database_subnets
   vpc_id  = local.vpc_id
 
-  replica_count                   = 1
+  replica_count                   = var.db_replica_count
   instance_type                   = var.db_instance_type
   apply_immediately               = true
   skip_final_snapshot             = false
@@ -72,4 +72,3 @@ resource "aws_security_group_rule" "allow_access_from_eks_workers" {
   source_security_group_id = module.eks.worker_security_group_id
   security_group_id        = module.aurora.this_security_group_id
 }
-
