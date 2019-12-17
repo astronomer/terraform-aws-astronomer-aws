@@ -22,3 +22,4 @@ config-map*
 *.zip
 examples/*/.terraform
 *__pycache__*
+*/__pycache__
