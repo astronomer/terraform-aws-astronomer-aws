@@ -147,3 +147,9 @@ variable "db_replica_count" {
   default     = 1
   type        = number
 }
+
+variable "local_ip" {
+  description = "URL used to find user's local IP for use with bastion host"
+  default     = "http://ipv4.icanhazip.com"
+  type        = string
+}
