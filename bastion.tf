@@ -32,7 +32,7 @@ data "aws_ami" "windows" {
 }
 
 data "http" "local_ip" {
-  url = "http://ipv4.icanhazip.com/s"
+  url = "http://ipv4.icanhazip.com/"
 }
 
 resource "tls_private_key" "ssh_key" {
