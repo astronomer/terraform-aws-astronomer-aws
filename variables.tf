@@ -29,25 +29,25 @@ variable "cluster_version" {
 
 variable "vpc_id" {
   default     = ""
-  type        = "string"
+  type        = string
   description = "The VPC ID, in the case that you do not want terraform to create a VPC with the default network settings on your behalf. If this setting is present, you should also have at least a 2 other subnets, each in a different availability zone, in the same region specified in aws_region."
 }
 
 variable "private_subnets" {
   default     = []
-  type        = "list"
+  type        = list
   description = "This variable does nothing unless vpc_id is also set. Specify the subnet IDs in which the platform will be deployed"
 }
 
 variable "db_subnets" {
   default     = []
-  type        = "list"
+  type        = list
   description = "This variable does nothing unless vpc_id is also set. Specify the subnet IDs in which the DB will be deployed. If not provided, it will fall back to private_subnets."
 }
 
 variable "public_subnets" {
   default     = []
-  type        = "list"
+  type        = list
   description = "This variable does nothing unless vpc_id is also set. Specify the subnet ID(s) (you probably only want one) in the bastion will be deployed. This is not needed unless you are enabling the bastion host."
 }
 
