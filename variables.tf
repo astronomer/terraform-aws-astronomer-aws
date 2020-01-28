@@ -25,19 +25,25 @@ variable "cluster_version" {
 
 variable "vpc_id" {
   default     = ""
-  type        = "string"
+  type        = string
   description = "The VPC ID, in the case that you do not want terraform to create a VPC with the default network settings on your behalf. If this setting is present, you should also have at least a 2 other subnets, each in a different availability zone, in the same region specified in aws_region."
 }
 
 variable "private_subnets" {
   default     = []
-  type        = "list"
+  type        = list
   description = "This variable does nothing unless vpc_id is also set. Specify the subnet IDs in which the platform will be deployed"
+}
+
+variable "db_subnets" {
+  default     = []
+  type        = list
+  description = "This variable does nothing unless vpc_id is also set. Specify the subnet IDs in which the DB will be deployed. If not provided, it will fall back to private_subnets."
 }
 
 variable "public_subnets" {
   default     = []
-  type        = "list"
+  type        = list
   description = "This variable does nothing unless vpc_id is also set. Specify the subnet ID(s) (you probably only want one) in the bastion will be deployed. This is not needed unless you are enabling the bastion host."
 }
 
@@ -117,7 +123,7 @@ variable "peer_account_id" {
 }
 
 variable "bastion_astro_cli_version" {
-  default     = "v0.9.3-alpha.2"
+  default     = "v0.10.3"
   type        = string
   description = "The version of astro-cli to install on the bastion host"
 }
@@ -131,4 +137,16 @@ variable "extra_sg_ids_for_eks_security" {
 variable "lets_encrypt" {
   type    = bool
   default = true
+}
+
+variable "db_replica_count" {
+  description = "How many replicas for the database"
+  default     = 1
+  type        = number
+}
+
+variable "local_ip" {
+  description = "URL used to find user's local IP for use with bastion host"
+  default     = "http://ipv4.icanhazip.com"
+  type        = string
 }

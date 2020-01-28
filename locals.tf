@@ -12,11 +12,15 @@ locals {
 
   azs = ["${local.region}a", "${local.region}b"]
 
-  vpc_id = "${var.vpc_id == "" ? module.vpc.vpc_id : var.vpc_id}"
+  vpc_id = var.vpc_id == "" ? module.vpc.vpc_id : var.vpc_id
 
-  private_subnets = "${var.vpc_id == "" ? module.vpc.private_subnets : var.private_subnets}"
+  private_subnets = var.vpc_id == "" ? module.vpc.private_subnets : var.private_subnets
 
-  public_subnets = "${var.vpc_id == "" ? module.vpc.public_subnets : var.public_subnets}"
+  bring_your_own_db_subnets = length(var.db_subnets) > 0 ? var.db_subnets : local.private_subnets
+
+  database_subnets = var.vpc_id == "" ? module.vpc.database_subnets : local.bring_your_own_db_subnets
+
+  public_subnets = var.vpc_id == "" ? module.vpc.public_subnets : var.public_subnets
 
   region = data.aws_region.current.name
 
@@ -27,4 +31,3 @@ locals {
     )
   )
 }
-
