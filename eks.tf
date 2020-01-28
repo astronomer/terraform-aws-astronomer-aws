@@ -10,7 +10,7 @@ module "eks" {
   # copy of the pending PRs
   source = "terraform-aws-modules/eks/aws"
   # version of the eks module to use
-  version = "5.0.0"
+  version = "7.0.1"
   # source = "./modules/terraform-aws-eks"
 
   cluster_name    = local.cluster_name
