@@ -37,7 +37,7 @@ module "vpc" {
   enable_dns_support   = true
 
   public_subnet_tags = {
-    var.cluster_type == "private" ? "bastion_subnet" : format("%s", "kubernetes.io/cluster/${local.cluster_name}") = var.cluster_type == "private" ? "1" : "shared"
+    "bastion_subnet" : "1"
   }
 
   private_subnet_tags = {
