@@ -1,9 +1,5 @@
 # Variables Configuration
 #
-variable "cluster_type" {
-  default = "private"
-  type    = string
-}
 
 # this is the basename that will be used
 # for naming other things
@@ -109,6 +105,7 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
 variable "peer_vpc_id" {
   default = ""
   type    = string
