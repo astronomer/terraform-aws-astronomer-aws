@@ -34,6 +34,7 @@ steps:
     AWS_SECRET_ACCESS_KEY:
       from_secret: AWS_SECRET_ACCESS_KEY
   commands:
+    - apk add curl
     - EXAMPLE=from_scratch pipeline/run_terraform.sh
   when:
     event:
@@ -47,6 +48,7 @@ steps:
     AWS_SECRET_ACCESS_KEY:
       from_secret: AWS_SECRET_ACCESS_KEY
   commands:
+    - apk add curl
     - DESTROY=1 EXAMPLE=from_scratch pipeline/run_terraform.sh
   when:
     event:

@@ -62,3 +62,17 @@ output "windows_debug_box_password" {
 output "windows_debug_box_hostname" {
   value = var.enable_windows_box ? aws_instance.windows_debug_box[0].public_dns : "Not applicable - Windows box is not enabled."
 }
+
+output "kube_endpoint" {
+  value = data.awk_eks_cluster.cluster_endpoint
+}
+
+output "kube_auth_token" {
+  value = data.aws_eks_cluster_auth.cluster.token
+  sensitive = true
+}
+
+output "kube_ca_certificate" {
+  value = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
+  sensitive = true
+}

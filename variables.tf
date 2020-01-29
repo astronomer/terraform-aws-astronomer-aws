@@ -25,7 +25,7 @@ variable "admin_email" {
 }
 
 variable "cluster_version" {
-  default = "1.12"
+  default = "1.14"
   type    = string
 }
 

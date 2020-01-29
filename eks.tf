@@ -4,6 +4,13 @@ resource "aws_key_pair" "worker_group_key_name" {
   public_key = var.pub_key_for_worker_aws_key_pair
 }
 
+data "aws_eks_cluster" "cluster" {
+  name = module.eks.cluster_id
+}
+
+data "aws_eks_cluster_auth" "cluster" {
+  name = module.eks.cluster_id
+}
 
 module "eks" {
   # Until the 0.12 support PRs are merged, we use a local
