@@ -12,6 +12,16 @@ data "aws_eks_cluster_auth" "cluster" {
   name = module.eks.cluster_id
 }
 
+# for the eks module to work properly, we need
+# to specify the authentication for this provider
+provider "kubernetes" {
+  host                   = data.aws_eks_cluster.cluster.endpoint
+  cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
+  token                  = data.aws_eks_cluster_auth.cluster.token
+  load_config_file       = false
+  version                = "~> 1.9"
+}
+
 module "eks" {
   # Until the 0.12 support PRs are merged, we use a local
   # copy of the pending PRs
@@ -43,8 +53,7 @@ module "eks" {
 
   cluster_endpoint_public_access = var.management_api == "public" ? true : false
 
-  # we cannot apply a config map when the EKS api is not public
-  manage_aws_auth = var.management_api == "public" ? true : false
+  manage_aws_auth = true
 
   tags = local.tags
 }
