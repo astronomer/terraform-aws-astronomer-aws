@@ -68,11 +68,11 @@ output "kube_endpoint" {
 }
 
 output "kube_auth_token" {
-  value = data.aws_eks_cluster_auth.cluster.token
+  value     = data.aws_eks_cluster_auth.cluster.token
   sensitive = true
 }
 
 output "kube_ca_certificate" {
-  value = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
+  value     = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
   sensitive = true
 }
