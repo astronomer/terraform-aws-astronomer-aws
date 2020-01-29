@@ -19,3 +19,9 @@ module "astronomer_aws_with_vpc" {
     "CI" = "true"
   }
 }
+
+resource "local_file" "kubeconfig" {
+  depends_on = [module.aws]
+  content    = module.aws.kubeconfig
+  filename   = "${path.root}/kubeconfig-${var.deployment_id}"
+}

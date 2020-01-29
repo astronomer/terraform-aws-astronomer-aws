@@ -18,4 +18,8 @@ if [ $DESTROY -eq 1 ]; then
   terraform destroy --auto-approve -var "deployment_id=$DEPLOYMENT_ID"
 else
   terraform apply --auto-approve -var "deployment_id=$DEPLOYMENT_ID"
+  # check that kubernetes is up and running
+  export KUBECONFIG=./kubeconfig-$DEPLOYMENT_ID
+  kubectl get namespaces
+  kubectl get pods --all-namespaces
 fi
