@@ -8,6 +8,12 @@ variable "deployment_id" {
   type        = string
 }
 
+variable "allow_public_load_balancers" {
+  description = "Configuring this variable will allow for public load balancers to be created in the Kubernetes."
+  default     = false
+  type        = bool
+}
+
 variable "route53_domain" {
   description = "The route53 domain in your account you want to use for the *.<deployment_id>.<route53_domain> subdomain"
   type        = string

@@ -36,8 +36,12 @@ module "vpc" {
   enable_dns_hostnames = true
   enable_dns_support   = true
 
-  public_subnet_tags = {
-    "bastion_subnet" : "1"
+  public_subnet_tags = var.allow_public_load_balancers ? {
+    "kubernetes.io/cluster/${local.cluster_name}" = "shared"
+    "kubernetes.io/role/elb"                      = "1"
+    "bastion_subnet"                              = "1"
+    } : {
+    "bastion_subnet" = "1"
   }
 
   private_subnet_tags = {
