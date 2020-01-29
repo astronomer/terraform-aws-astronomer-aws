@@ -13,7 +13,7 @@ resource random_id "collision_avoidance" {
 resource "aws_iam_role_policy" "elb_lookup_policy" {
 
   name = "${var.deployment_id}_elb_lookup_policy${random_id.collision_avoidance.hex}"
-  role = "${aws_iam_role.elb_lookup_role.id}"
+  role = aws_iam_role.elb_lookup_role.id
 
   policy = <<EOF
 {
@@ -60,15 +60,15 @@ resource "aws_lambda_function" "elb_lookup" {
   depends_on       = [data.archive_file.elb_lookup, aws_iam_role_policy.elb_lookup_policy]
   filename         = "${path.module}/elb_lookup.py.zip"
   function_name    = "${var.deployment_id}_elb_lookup_function${random_id.collision_avoidance.hex}"
-  role             = "${aws_iam_role.elb_lookup_role.arn}"
+  role             = aws_iam_role.elb_lookup_role.arn
   handler          = "elb_lookup.my_handler"
-  source_code_hash = "${data.archive_file.elb_lookup.output_base64sha256}"
+  source_code_hash = data.archive_file.elb_lookup.output_base64sha256
   runtime          = "python3.7"
 
   environment {
     variables = {
-      VPC_ID       = "${local.vpc_id}"
-      CLUSTER_NAME = "${local.cluster_name}"
+      VPC_ID       = local.vpc_id
+      CLUSTER_NAME = local.cluster_name
     }
   }
 
