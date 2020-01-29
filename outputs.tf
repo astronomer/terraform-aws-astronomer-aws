@@ -64,7 +64,7 @@ output "windows_debug_box_hostname" {
 }
 
 output "kube_endpoint" {
-  value = data.aws_eks_cluster.cluster_endpoint
+  value = data.aws_eks_cluster.cluster.endpoint
 }
 
 output "kube_auth_token" {
