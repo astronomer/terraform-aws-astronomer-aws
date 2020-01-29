@@ -35,6 +35,12 @@ steps:
       from_secret: AWS_SECRET_ACCESS_KEY
   commands:
     - apk add curl
+    # Install kubectl
+    - |
+      curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+      chmod +x ./kubectl
+      mv ./kubectl /usr/local/bin/
+      which kubectl
     - EXAMPLE=from_scratch pipeline/run_terraform.sh
   when:
     event:
