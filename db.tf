@@ -18,6 +18,7 @@ module "aurora" {
   engine         = "aurora-postgresql"
 
   engine_version             = var.engine_version
+  auto_minor_version_upgrade = var.auto_minor_version_upgrade
 
   subnets = local.database_subnets
   vpc_id  = local.vpc_id

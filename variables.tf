@@ -158,7 +158,13 @@ variable "local_ip" {
 }
 
 variable "engine_version" {
-  description = "Aurora database engine version"
+  description = "Aurora database engine version."
   type        = string
   default     = "10.7"
+}
+
+variable "auto_minor_version_upgrade" {
+  description = "Determines whether minor engine upgrades will be performed automatically in the maintenance window"
+  type        = bool
+  default     = false
 }
