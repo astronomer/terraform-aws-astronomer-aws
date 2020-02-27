@@ -156,3 +156,9 @@ variable "local_ip" {
   default     = "http://checkip.amazonaws.com"
   type        = string
 }
+
+variable "engine_version" {
+  description = "Aurora database engine version"
+  type        = string
+  default     = "10.7"
+}
