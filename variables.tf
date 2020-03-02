@@ -164,7 +164,7 @@ variable "engine_version" {
 }
 
 variable "auto_minor_version_upgrade" {
-  description = "Determines whether minor engine upgrades will be performed automatically in the maintenance window"
+  description = "Determines whether minor engine upgrades for Aurora RDS will be performed automatically in the maintenance window"
   type        = bool
   default     = false
 }
