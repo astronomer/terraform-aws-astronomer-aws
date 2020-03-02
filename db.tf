@@ -14,8 +14,8 @@ module "aurora" {
   version = "2.11.0"
   source  = "terraform-aws-modules/rds-aurora/aws"
   # source         = "./modules/terraform-aws-rds-aurora"
-  name           = "astrodb-${random_id.db_name_suffix.hex}"
-  engine         = "aurora-postgresql"
+  name   = "astrodb-${random_id.db_name_suffix.hex}"
+  engine = "aurora-postgresql"
 
   engine_version             = var.engine_version
   auto_minor_version_upgrade = var.auto_minor_version_upgrade
