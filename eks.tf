@@ -30,8 +30,9 @@ module "eks" {
   version = "8.1.0"
   # source = "./modules/terraform-aws-eks"
 
-  cluster_name    = local.cluster_name
-  cluster_version = var.cluster_version
+  cluster_name           = local.cluster_name
+  cluster_version        = var.cluster_version
+  cluster_create_timeout = "30m"
 
   subnets = local.private_subnets
 
