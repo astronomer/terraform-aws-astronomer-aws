@@ -98,7 +98,7 @@ resource "aws_security_group_rule" "bastion_connection_to_private_kube_api" {
   description       = "Connect the bastion to the EKS private endpoint"
   security_group_id = module.eks.cluster_security_group_id
 
-  cidr_blocks = ["${aws_instance.bastion[0].private_ip}/32"]
+  cidr_blocks = ["${aws_instance.bastion[0].private_ip}/${bastion_ingress_cidr_prefix}"]
   from_port   = 443
   to_port     = 443
   protocol    = "tcp"
