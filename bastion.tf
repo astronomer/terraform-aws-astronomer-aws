@@ -75,7 +75,7 @@ resource "aws_security_group" "bastion_sg" {
     protocol  = "tcp"
 
     # Please restrict your ingress to only necessary IPs and ports.
-    cidr_blocks = var.bastion_ingress_cidr == "" ? ["${trimspace(data.http.local_ip.body)}/32"] : var.bastion_ingress_cidr
+    cidr_blocks = var.bastion_ingress_cidr == "" ? ["${trimspace(data.http.local_ip.body)}/32"] : [var.bastion_ingress_cidr]
   }
 
   egress {
