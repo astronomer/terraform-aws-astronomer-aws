@@ -169,8 +169,8 @@ variable "auto_minor_version_upgrade" {
   default     = false
 }
 
-variable "bastion_ingress_cidr_prefix" {
-  description = "Prefix of local_ip used as ingress for bastion"
-  default     = 32
-  type        = number
+variable "bastion_ingress_cidr" {
+  description = "IP subnet mask used as ingress for bastion. Format should be 0.0.0.0/0"
+  default     = ""
+  type        = string
 }
