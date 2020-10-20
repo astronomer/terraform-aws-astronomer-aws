@@ -1,6 +1,6 @@
 variable deployment_id {}
 
-# this is how the module can be called 
+# this is how the module can be called
 # if you want to create a VPC and the subnets
 # from scratch.
 module "astronomer_aws_with_vpc" {
@@ -21,7 +21,8 @@ module "astronomer_aws_with_vpc" {
 }
 
 resource "local_file" "kubeconfig" {
-  depends_on = [module.astronomer_aws_with_vpc]
-  content    = module.astronomer_aws_with_vpc.kubeconfig
-  filename   = "${path.root}/kubeconfig-${var.deployment_id}"
+  depends_on      = [module.astronomer_aws_with_vpc]
+  content         = module.astronomer_aws_with_vpc.kubeconfig
+  filename        = "${path.root}/kubeconfig-${var.deployment_id}"
+  file_permission = "0644"
 }
