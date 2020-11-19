@@ -36,3 +36,12 @@ module "astronomer_aws_in_specific_subnet" {
   vpc_id          = module.vpc.vpc_id
   private_subnets = module.vpc.private_subnets
 }
+
+terraform {
+  required_providers {
+    acme = {
+      source = "terraform-providers/acme"
+    }
+  }
+  required_version = ">= 0.13"
+}
