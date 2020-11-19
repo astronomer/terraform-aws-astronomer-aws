@@ -25,3 +25,12 @@ resource "local_file" "kubeconfig" {
   content    = module.astronomer_aws_with_vpc.kubeconfig
   filename   = "${path.root}/kubeconfig-${var.deployment_id}"
 }
+
+terraform {
+  required_providers {
+    acme = {
+      source = "terraform-providers/acme"
+    }
+  }
+  required_version = ">= 0.13"
+}
