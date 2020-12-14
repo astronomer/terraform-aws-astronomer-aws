@@ -30,6 +30,7 @@ jobs:
             chmod +x ./aws-iam-authenticator
             mv ./aws-iam-authenticator /usr/local/bin/
             which aws-iam-authenticator
+      - run: EXAMPLE=from_scratch pipeline/run_terraform.sh
   # from_scratch_cleanup:
   #   docker:
   #     - image: quay.io/astronomer/ci-terraform:2020-12
