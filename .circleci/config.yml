@@ -35,6 +35,7 @@ jobs:
     docker:
       - image: quay.io/astronomer/ci-terraform:2020-12
     steps:
+      - checkout
       - run: DESTROY=1 EXAMPLE=from_scratch pipeline/run_terraform.sh
   # git_tag:
   # slack:
