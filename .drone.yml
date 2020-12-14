@@ -1,137 +1,137 @@
-kind: pipeline
-name: terraform-aws-astronomer-aws
+# kind: pipeline
+# name: terraform-aws-astronomer-aws
 
-steps:
+# steps:
 
-- name: lint
-  image: hashicorp/terraform:0.12.29 
-  commands:
-    - cp providers.tf.example providers.tf
-    - terraform init
-    - terraform fmt -check=true
-    - terraform validate -var "deployment_id=validate" -var "route53_domain=validate-fake.com" -var "admin_email=fake@mailinator.com"
-    - |
-      for example in $(find examples -maxdepth 1 -mindepth 1 -type d); do
-      cp providers.tf $example
-      cd $example
-      echo $example
-      terraform init
-      terraform fmt -check=true
-      terraform validate -var "deployment_id=citest"
-      cd -
-      done
-    - terraform -v
-  when:
-    event:
-      - pull_request
-      - push
+# - name: lint
+#   image: hashicorp/terraform:0.12.29 
+#   commands:
+#     - cp providers.tf.example providers.tf
+#     - terraform init
+#     - terraform fmt -check=true
+#     - terraform validate -var "deployment_id=validate" -var "route53_domain=validate-fake.com" -var "admin_email=fake@mailinator.com"
+#     - |
+#       for example in $(find examples -maxdepth 1 -mindepth 1 -type d); do
+#       cp providers.tf $example
+#       cd $example
+#       echo $example
+#       terraform init
+#       terraform fmt -check=true
+#       terraform validate -var "deployment_id=citest"
+#       cd -
+#       done
+#     - terraform -v
+#   when:
+#     event:
+#       - pull_request
+#       - push
 
-- name: from_scratch
-  image: hashicorp/terraform:0.12.29
-  environment:
-    AWS_ACCESS_KEY_ID:
-      from_secret: AWS_ACCESS_KEY_ID
-    AWS_SECRET_ACCESS_KEY:
-      from_secret: AWS_SECRET_ACCESS_KEY
-  commands:
-    - apk add curl
-    # Install kubectl
-    - |
-      curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
-      chmod +x ./kubectl
-      mv ./kubectl /usr/local/bin/
-      which kubectl
-    # Install aws-iam-authenticator
-    - |
-      curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/aws-iam-authenticator
-      chmod +x ./aws-iam-authenticator
-      mv ./aws-iam-authenticator /usr/local/bin/
-      which aws-iam-authenticator
-    - EXAMPLE=from_scratch pipeline/run_terraform.sh
-  when:
-    event:
-      - push
+# - name: from_scratch
+#   image: hashicorp/terraform:0.12.29
+#   environment:
+#     AWS_ACCESS_KEY_ID:
+#       from_secret: AWS_ACCESS_KEY_ID
+#     AWS_SECRET_ACCESS_KEY:
+#       from_secret: AWS_SECRET_ACCESS_KEY
+#   commands:
+#     - apk add curl
+#     # Install kubectl
+#     - |
+#       curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+#       chmod +x ./kubectl
+#       mv ./kubectl /usr/local/bin/
+#       which kubectl
+#     # Install aws-iam-authenticator
+#     - |
+#       curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/aws-iam-authenticator
+#       chmod +x ./aws-iam-authenticator
+#       mv ./aws-iam-authenticator /usr/local/bin/
+#       which aws-iam-authenticator
+#     - EXAMPLE=from_scratch pipeline/run_terraform.sh
+#   when:
+#     event:
+#       - push
 
-- name: from_scratch_cleanup
-  image: hashicorp/terraform:0.12.29
-  environment:
-    AWS_ACCESS_KEY_ID:
-      from_secret: AWS_ACCESS_KEY_ID
-    AWS_SECRET_ACCESS_KEY:
-      from_secret: AWS_SECRET_ACCESS_KEY
-  commands:
-    - apk add curl
-    - DESTROY=1 EXAMPLE=from_scratch pipeline/run_terraform.sh
-  when:
-    event:
-      - push
-    status:
-      - failure
-      - success
+# - name: from_scratch_cleanup
+#   image: hashicorp/terraform:0.12.29
+#   environment:
+#     AWS_ACCESS_KEY_ID:
+#       from_secret: AWS_ACCESS_KEY_ID
+#     AWS_SECRET_ACCESS_KEY:
+#       from_secret: AWS_SECRET_ACCESS_KEY
+#   commands:
+#     - apk add curl
+#     - DESTROY=1 EXAMPLE=from_scratch pipeline/run_terraform.sh
+#   when:
+#     event:
+#       - push
+#     status:
+#       - failure
+#       - success
 
-- name: git_tag
-  image: docker:git
-  environment:
-    DEPLOY_KEY:
-      from_secret: DEPLOY_KEY
-  commands:
-    - eval `ssh-agent`
-    - echo "$DEPLOY_KEY" | ssh-add -
-    - TAG=1.1.${DRONE_BUILD_NUMBER}
-    - git tag $TAG
-    - mkdir -p $HOME/.ssh
-    - ssh-keyscan -t rsa github.com >> $HOME/.ssh/known_hosts
-    - git push $DRONE_GIT_SSH_URL $DRONE_BRANCH --tags
-  when:
-    event:
-      - push
-    status:
-      - success
-    branch:
-      - master
-    repo:
-    - astronomer/terraform-aws-astronomer-aws
+# - name: git_tag
+#   image: docker:git
+#   environment:
+#     DEPLOY_KEY:
+#       from_secret: DEPLOY_KEY
+#   commands:
+#     - eval `ssh-agent`
+#     - echo "$DEPLOY_KEY" | ssh-add -
+#     - TAG=1.1.${DRONE_BUILD_NUMBER}
+#     - git tag $TAG
+#     - mkdir -p $HOME/.ssh
+#     - ssh-keyscan -t rsa github.com >> $HOME/.ssh/known_hosts
+#     - git push $DRONE_GIT_SSH_URL $DRONE_BRANCH --tags
+#   when:
+#     event:
+#       - push
+#     status:
+#       - success
+#     branch:
+#       - master
+#     repo:
+#     - astronomer/terraform-aws-astronomer-aws
 
-- name: slack
-  image: plugins/slack
-  settings:
-    webhook:
-      from_secret: WEBHOOK_URL
-    channel: ci-debug
-    username: terraform-ci
-    template: >
-      {{repo.name}}
-      {{build.link}}
-      {{#success build.status}}
-        succeeded
-      {{else}}
-        failed
-      {{/success}}
-  when:
-    event:
-      - push
-    status:
-      - success
-      - failure
-    branch:
-      - master
-    repo:
-    - astronomer/terraform-aws-astronomer-aws
+# - name: slack
+#   image: plugins/slack
+#   settings:
+#     webhook:
+#       from_secret: WEBHOOK_URL
+#     channel: ci-debug
+#     username: terraform-ci
+#     template: >
+#       {{repo.name}}
+#       {{build.link}}
+#       {{#success build.status}}
+#         succeeded
+#       {{else}}
+#         failed
+#       {{/success}}
+#   when:
+#     event:
+#       - push
+#     status:
+#       - success
+#       - failure
+#     branch:
+#       - master
+#     repo:
+#     - astronomer/terraform-aws-astronomer-aws
 
-- name: slack_tag
-  image: plugins/slack
-  settings:
-    webhook:
-      from_secret: WEBHOOK_URL
-    channel: ci-debug
-    username: terraform-ci
-    template: >
-      {{repo.name}}
-      version {{build.tag}} released
-  when:
-    event:
-      - tag
-    status:
-      - success
-    repo:
-    - astronomer/terraform-aws-astronomer-aws
+# - name: slack_tag
+#   image: plugins/slack
+#   settings:
+#     webhook:
+#       from_secret: WEBHOOK_URL
+#     channel: ci-debug
+#     username: terraform-ci
+#     template: >
+#       {{repo.name}}
+#       version {{build.tag}} released
+#   when:
+#     event:
+#       - tag
+#     status:
+#       - success
+#     repo:
+#     - astronomer/terraform-aws-astronomer-aws

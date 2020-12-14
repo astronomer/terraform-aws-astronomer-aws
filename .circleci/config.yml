@@ -31,10 +31,11 @@ jobs:
             mv ./aws-iam-authenticator /usr/local/bin/
             which aws-iam-authenticator
       - run: EXAMPLE=from_scratch pipeline/run_terraform.sh
-  # from_scratch_cleanup:
-  #   docker:
-  #     - image: quay.io/astronomer/ci-terraform:2020-12
-  #   steps:
+  destroy:
+    docker:
+      - image: quay.io/astronomer/ci-terraform:2020-12
+    steps:
+      - run: DESTROY=1 EXAMPLE=from_scratch pipeline/run_terraform.sh
   # git_tag:
   # slack:
   # slack_tag:
@@ -43,4 +44,7 @@ workflows:
   test_pipeline:
     jobs:
       - lint
-      - apply
+      - destroy:
+          requires:
+            - lint
+      
