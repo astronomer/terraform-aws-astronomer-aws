@@ -8,15 +8,15 @@ jobs:
       - run: cp providers.tf.example providers.tf
       - run: terraform-0.12.29 init
       - run: terraform-0.12.29 fmt -check=true
-      - run: terraform validate -var "deployment_id=validate" -var "route53_domain=validate-fake.com" -var "admin_email=fake@mailinator.com"
+      - run: terraform-0.12.29 validate -var "deployment_id=validate" -var "route53_domain=validate-fake.com" -var "admin_email=fake@mailinator.com"
       - run: |
             for example in $(find examples -maxdepth 1 -mindepth 1 -type d); do
             cp providers.tf $example
             cd $example
             echo $example
-            terraform init
-            terraform fmt -check=true
-            terraform validate -var "deployment_id=citest"
+            terraform-0.12.29 init
+            terraform-0.12.29 fmt -check=true
+            terraform-0.12.29 validate -var "deployment_id=citest"
             cd -
             done
       - run: terraform-0.12.29 -v
