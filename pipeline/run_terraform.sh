@@ -15,6 +15,8 @@ sed -i "s/REPLACE/$DEPLOYMENT_ID/g" backend.tf
 terraform-0.12.29 init
 
 if [ $DESTROY -eq 1 ]; then
+  DEPLOYMENT_ID=ci$(echo "$CIRCLE_PROJECT_REPONAME$CIRCLE_PREVIOUS_BUILD_NUM" | md5sum | awk '{print substr($1,0,30)}')
+  echo $DEPLOYMENT_ID
   terraform-0.12.29 destroy --auto-approve -var "deployment_id=$DEPLOYMENT_ID"
 else
   terraform-0.12.29 apply --auto-approve -var "deployment_id=$DEPLOYMENT_ID"
