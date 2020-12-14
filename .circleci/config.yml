@@ -45,7 +45,10 @@ workflows:
   test_pipeline:
     jobs:
       - lint
-      - destroy:
+      - apply:
           requires:
             - lint
+      - destroy:
+          requires:
+            - apply
       
