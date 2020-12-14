@@ -20,10 +20,16 @@ jobs:
             cd -
             done
       - run: terraform-0.12.29 -v
-  # from_scratch:
-  #   docker:
-  #     - image: quay.io/astronomer/ci-terraform:2020-12
-  #   steps:
+  apply:
+    docker:
+      - image: quay.io/astronomer/ci-terraform:2020-12
+    steps:
+      - checkout
+      - run: |
+            curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/aws-iam-authenticator
+            chmod +x ./aws-iam-authenticator
+            mv ./aws-iam-authenticator /usr/local/bin/
+            which aws-iam-authenticator
   # from_scratch_cleanup:
   #   docker:
   #     - image: quay.io/astronomer/ci-terraform:2020-12
@@ -36,3 +42,4 @@ workflows:
   test_pipeline:
     jobs:
       - lint
+      - apply
