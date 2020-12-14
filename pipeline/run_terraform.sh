@@ -4,7 +4,7 @@ terraform-0.12.29 -v
 
 # unique deployment ID to avoid collisions in CI
 # needs to be 32 characters or less and start with letter
-DEPLOYMENT_ID=ci$(echo "$DRONE_REPO_NAME$DRONE_BUILD_NUMBER" | md5sum | awk '{print substr($1,0,30)}')
+DEPLOYMENT_ID=ci$(echo "$CIRCLE_PROJECT_REPONAME$CIRCLE_BUILD_NUM" | md5sum | awk '{print substr($1,0,30)}')
 echo $DEPLOYMENT_ID
 
 cp providers.tf.example examples/$EXAMPLE/providers.tf
