@@ -61,10 +61,10 @@ workflows:
           context: slack
       - terraform_apply:
           requires:
-            - lint
+            - terraform_lint
           context: slack
       - terraform_destroy:
           requires:
-            - apply
+            - terraform_apply
           context: slack
       
