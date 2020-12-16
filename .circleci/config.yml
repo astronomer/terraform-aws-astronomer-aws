@@ -7,7 +7,6 @@ jobs:
       - image: quay.io/astronomer/ci-terraform:2020-12
     steps:
       - checkout
-      - run: apk add jq
       - run: cp providers.tf.example providers.tf
       - run: terraform-0.12.29 init
       - run: terraform-0.12.29 fmt -check=true
@@ -32,7 +31,6 @@ jobs:
       - image: quay.io/astronomer/ci-terraform:2020-12
     steps:
       - checkout
-      - run: apk add jq
       - run: |
             curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/aws-iam-authenticator
             chmod +x ./aws-iam-authenticator
@@ -48,7 +46,6 @@ jobs:
       - image: quay.io/astronomer/ci-terraform:2020-12
     steps:
       - checkout
-      - run: apk add jq
       - run: DESTROY=1 EXAMPLE=from_scratch pipeline/run_terraform.sh
       - slack/notify:
           event: fail
@@ -58,11 +55,10 @@ jobs:
     docker:
       - image: quay.io/astronomer/ci-terraform:2020-12
     steps:
-      - run: apk add jq openssh
       - checkout
       - run: git remote set-url origin "https://astro-astronomer:${GITHUB_TOKEN}@github.com/astronomer/${CIRCLE_PROJECT_REPONAME}.git"
       # - run: git checkout << pipeline.git.branch >>
-      - run: git tag 1.1.<< pipeline.number >>
+      - run: git tag 1.2.<< pipeline.number >>
       - run: git push origin << pipeline.git.branch >> --tags
       - slack/notify:
           event: fail
