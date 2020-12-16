@@ -72,7 +72,7 @@ jobs:
                   "type": "header",
                   "text": {
                     "type": "plain_text",
-                    "text": "Deployment Successful! :tada:",
+                    "text": "Release Successful! :tada:",
                     "emoji": true
                   }
                 },
@@ -81,11 +81,11 @@ jobs:
                   "fields": [
                     {
                       "type": "mrkdwn",
-                      "text": "*Project*:\\n$CIRCLE_PROJECT_REPONAME"
+                      "text": "*Project*: $CIRCLE_PROJECT_REPONAME"
                     },
                     {
                       "type": "mrkdwn",
-                      "text": "*When*:\\n$(date +'%m/%d/%Y %T')"
+                      "text": "*When*: $(date +'%m/%d/%Y %T')"
                     },
                     {
                       "type": "mrkdwn",
