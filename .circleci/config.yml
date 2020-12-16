@@ -24,58 +24,47 @@ jobs:
             done
       - run: terraform-0.12.29 -v
       - slack/notify:
-          custom: |
-            {
-              "blocks": [
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "plain_text",
-                      "text": "Testing",
-                      "emoji": true
-                    }
-                  ]
-                }
-              ]
-            }
+          event: fail
+          template: basic_fail_1
+
   terraform_apply:
     docker:
       - image: quay.io/astronomer/ci-terraform:2020-12
     steps:
       - checkout
+      - run: apk add jq
       - run: |
             curl -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/aws-iam-authenticator
             chmod +x ./aws-iam-authenticator
             mv ./aws-iam-authenticator /usr/local/bin/
             which aws-iam-authenticator
       - run: EXAMPLE=from_scratch pipeline/run_terraform.sh
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+
   terraform_destroy:
     docker:
       - image: quay.io/astronomer/ci-terraform:2020-12
     steps:
       - checkout
+      - run: apk add jq
       - run: DESTROY=1 EXAMPLE=from_scratch pipeline/run_terraform.sh
-  # git_tag:
-  slack:
-    docker:
-      - image: cimg/base:stable
-    steps:
       - slack/notify:
+          event: fail
           template: basic_fail_1
-
-  # slack_tag:
 
 workflows:
   test_pipeline:
     jobs:
       - terraform_lint:
           context: slack
-      # - lint
-      # - apply:
-      #     requires:
-      #       - lint
-      # - destroy:
-      #     requires:
-      #       - apply
+      - terraform_apply:
+          requires:
+            - lint
+          context: slack
+      - terraform_destroy:
+          requires:
+            - apply
+          context: slack
       
