@@ -57,12 +57,12 @@ jobs:
     steps:
       - checkout
       - run: git remote set-url origin "https://astro-astronomer:${GITHUB_TOKEN}@github.com/astronomer/${CIRCLE_PROJECT_REPONAME}.git"
-      # - run: git checkout << pipeline.git.branch >>
       - run: git tag 1.2.<< pipeline.number >>
       - run: git push origin << pipeline.git.branch >> --tags
       - slack/notify:
           event: fail
           template: basic_fail_1
+      
       
 workflows:
   test_pipeline:
@@ -71,6 +71,10 @@ workflows:
           context:
             - github-repo
             - slack
+          filters:
+            branches:
+              only:
+                - master
       # - terraform_lint:
       #     context: slack
       # - terraform_apply:
