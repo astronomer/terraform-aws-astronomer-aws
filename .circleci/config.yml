@@ -60,10 +60,8 @@ jobs:
     steps:
       - checkout
       - run: apk add jq openssh
-      - run: eval `ssh-agent`
-      - run: mkdir -p $HOME/.ssh
-      - run: ssh-keyscan -t rsa github.com >> $HOME/.ssh/known_hosts
       - run: git remote set-url origin "https://astro-astronomer:${GITHUB_TOKEN}@github.com/astronomer/${CIRCLE_PROJECT_REPONAME}.git"
+      - run: git checkout << pipeline.git.branch >>
       - run: git tag 1.1.<< pipeline.number >>
       - run: git push origin << pipeline.git.branch >> --tags
       
