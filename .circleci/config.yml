@@ -53,18 +53,35 @@ jobs:
       - slack/notify:
           event: fail
           template: basic_fail_1
-
+          
+  git_tag:
+    docker:
+      - image: quay.io/astronomer/ci-terraform:2020-12
+    steps:
+      - checkout
+      - run: apk add jq openssh
+      - run: eval `ssh-agent`
+      - add_ssh_keys:
+          fingerprints:
+            - "65:d4:19:be:6e:00:b2:8d:f3:03:47:22:76:1c:6f:b1"
+      - run: TAG=1.1.<< pipeline.number >>
+      - run: git tag $TAG
+      - run: mkdir -p $HOME/.ssh
+      - run: ssh-keyscan -t rsa github.com >> $HOME/.ssh/known_hosts
+      - run: git push << pipeline.project.git_url >> << pipeline.git.branch >> --tags
+      
 workflows:
   test_pipeline:
     jobs:
-      - terraform_lint:
-          context: slack
-      - terraform_apply:
-          requires:
-            - terraform_lint
-          context: slack
-      - terraform_destroy:
-          requires:
-            - terraform_apply
-          context: slack
+      - git_tag
+      # - terraform_lint:
+      #     context: slack
+      # - terraform_apply:
+      #     requires:
+      #       - terraform_lint
+      #     context: slack
+      # - terraform_destroy:
+      #     requires:
+      #       - terraform_apply
+      #     context: slack
       
