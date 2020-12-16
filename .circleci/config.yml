@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  slack: circleci/slack@4.1.3
 jobs:
   lint:
     docker:
@@ -38,17 +40,40 @@ jobs:
       - checkout
       - run: DESTROY=1 EXAMPLE=from_scratch pipeline/run_terraform.sh
   # git_tag:
-  # slack:
+  slack:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - slack/notify:
+          channel: ci-debug
+          custom: |
+            {
+              "blocks": [
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "plain_text",
+                      "text": "*This is a text notification*",
+                      "emoji": true
+                    }
+                  ]
+                }
+              ]
+            }
+
   # slack_tag:
 
 workflows:
   test_pipeline:
     jobs:
-      - lint
-      - apply:
-          requires:
-            - lint
-      - destroy:
-          requires:
-            - apply
+      - slack:
+        context: Slack
+      # - lint
+      # - apply:
+      #     requires:
+      #       - lint
+      # - destroy:
+      #     requires:
+      #       - apply
       
