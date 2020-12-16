@@ -67,7 +67,7 @@ workflows:
   test_pipeline:
     jobs:
       - slack:
-        context: slack
+          context: slack
       # - lint
       # - apply:
       #     requires:
