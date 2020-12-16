@@ -85,11 +85,11 @@ jobs:
                     },
                     {
                       "type": "mrkdwn",
-                      "text": "*When*: $(date +'%m/%d/%Y %T')"
+                      "text": "*When*:\n$(date +'%m/%d/%Y %T')"
                     },
                     {
                       "type": "mrkdwn",
-                      "text": "*Tag*: 1.2.<< pipeline.number >>"
+                      "text": "*Tag*:\n1.2.<< pipeline.number >>"
                     }
                   ],
                   "accessory": {
