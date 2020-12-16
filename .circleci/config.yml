@@ -58,8 +58,8 @@ jobs:
     docker:
       - image: quay.io/astronomer/ci-terraform:2020-12
     steps:
+      - run: apk add jq openssh
       - checkout
-      - run: apk add jq
       - run: git remote set-url origin "https://astro-astronomer:${GITHUB_TOKEN}@github.com/astronomer/${CIRCLE_PROJECT_REPONAME}.git"
       # - run: git checkout << pipeline.git.branch >>
       - run: git tag 1.1.<< pipeline.number >>
