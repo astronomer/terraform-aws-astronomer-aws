@@ -45,7 +45,6 @@ jobs:
       - image: cimg/base:stable
     steps:
       - slack/notify:
-          channel: ci-debug
           custom: |
             {
               "blocks": [
@@ -68,7 +67,7 @@ workflows:
   test_pipeline:
     jobs:
       - slack:
-        context: Slack
+        context: slack
       # - lint
       # - apply:
       #     requires:
