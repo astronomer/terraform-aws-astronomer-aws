@@ -7,6 +7,7 @@ jobs:
       - image: quay.io/astronomer/ci-terraform:2020-12
     steps:
       - checkout
+      - run: apk add jq
       - run: cp providers.tf.example providers.tf
       - run: terraform-0.12.29 init
       - run: terraform-0.12.29 fmt -check=true
