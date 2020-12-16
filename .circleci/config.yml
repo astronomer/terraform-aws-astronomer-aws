@@ -67,7 +67,7 @@ jobs:
       - run: git tag 1.1.<< pipeline.number >>
       - run: mkdir -p $HOME/.ssh
       - run: ssh-keyscan -t rsa github.com >> $HOME/.ssh/known_hosts
-      - run: git push << pipeline.project.git_url >> << pipeline.git.branch >> --tags
+      - run: git push ssh://git@github.com:astronomer/terraform-aws-astronomer-aws.git << pipeline.git.branch >> --tags
       
 workflows:
   test_pipeline:
