@@ -64,10 +64,10 @@ jobs:
       - add_ssh_keys:
           fingerprints:
             - "65:d4:19:be:6e:00:b2:8d:f3:03:47:22:76:1c:6f:b1"
-      - run: git fetch origin << pipeline.git.branch >>
       - run: git tag 1.1.<< pipeline.number >>
       - run: mkdir -p $HOME/.ssh
       - run: ssh-keyscan -t rsa github.com >> $HOME/.ssh/known_hosts
+      - run: git fetch origin << pipeline.git.branch >>
       - run: git branch
       - run: git push origin << pipeline.git.branch >> --tags
       
