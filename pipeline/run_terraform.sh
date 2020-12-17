@@ -1,11 +1,8 @@
 set -xe
 
-TERRAFORM=terraform-0.12.29
+TERRAFORM="${TERRAFORM:-terraform-0.12.29}"
 
 $TERRAFORM -v
-
-# unique deployment ID to avoid collisions in CI
-# needs to be 32 characters or less and start with letter
 
 cp providers.tf.example examples/$EXAMPLE/providers.tf
 cp backend.tf.example examples/$EXAMPLE/backend.tf
