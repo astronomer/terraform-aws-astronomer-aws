@@ -119,11 +119,13 @@ workflows:
   test_pipeline:
     jobs:
       - terraform_lint:
-          context: slack
+          context:
+            - slack
       - terraform_apply:
           requires:
             - terraform_lint
-          context: slack
+          context:
+            - slack
       - terraform_destroy:
           requires:
             - terraform_apply
@@ -134,7 +136,7 @@ workflows:
             - slack
           requires:
             - terraform_destroy
-          # filters:
-          #   branches:
-          #     only:
-          #       - master
+          filters:
+            branches:
+              only:
+                - master
