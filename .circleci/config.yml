@@ -7,6 +7,7 @@ jobs:
       - image: quay.io/astronomer/ci-terraform:2020-12
     steps:
       - checkout
+      - run: chmod +x pipeline/lint.sh
       - run: pipeline/lint.sh
       - slack/notify:
           event: fail
