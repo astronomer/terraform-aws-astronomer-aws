@@ -1,5 +1,10 @@
 ---
 repos:
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: "v2.2.1"
+    hooks:
+      - id: prettier
+        args: ["--print-width=135"]
   - repo: git://github.com/antonbabenko/pre-commit-terraform
     rev: v1.11.0
     hooks:

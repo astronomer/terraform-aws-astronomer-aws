@@ -44,4 +44,3 @@ resource "acme_certificate" "lets_encrypt" {
     }
   }
 }
-
