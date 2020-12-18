@@ -29,8 +29,6 @@ repos:
         files: "^.gitignore$"
       - id: mixed-line-ending
         args: ["--fix=lf"]
-      - id: no-commit-to-branch
-        args: ["-b", "master"]
       - id: trailing-whitespace
   - repo: https://github.com/astronomer/pre-commit-hooks
     rev: bd325c947efcba13c03b4f4c93d882f2f83ed6ff
