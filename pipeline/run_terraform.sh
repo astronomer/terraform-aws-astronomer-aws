@@ -5,19 +5,19 @@ TERRAFORM="${TERRAFORM:-terraform-0.12.29}"
 
 $TERRAFORM -v
 
-cp providers.tf.example examples/$EXAMPLE/providers.tf
-cp backend.tf.example examples/$EXAMPLE/backend.tf
-cd examples/$EXAMPLE
+cp providers.tf.example examples/"$EXAMPLE"/providers.tf
+cp backend.tf.example examples/"$EXAMPLE"/backend.tf
+cd examples/"$EXAMPLE"
 
-if [ $DESTROY -eq 1 ]; then
+if [ "$DESTROY" -eq 1 ]; then
   DEPLOYMENT_ID=ci$(echo "$CIRCLE_PROJECT_REPONAME$CIRCLE_PREVIOUS_BUILD_NUM" | md5sum | awk '{print substr($1,0,30)}')
-  echo $DEPLOYMENT_ID
+  echo "$DEPLOYMENT_ID"
   sed -i "s/REPLACE/$DEPLOYMENT_ID/g" backend.tf
   $TERRAFORM init
   $TERRAFORM destroy --auto-approve -var "deployment_id=$DEPLOYMENT_ID"
 else
   DEPLOYMENT_ID=ci$(echo "$CIRCLE_PROJECT_REPONAME$CIRCLE_BUILD_NUM" | md5sum | awk '{print substr($1,0,30)}')
-  echo $DEPLOYMENT_ID
+  echo "$DEPLOYMENT_ID"
   sed -i "s/REPLACE/$DEPLOYMENT_ID/g" backend.tf
   $TERRAFORM init
   $TERRAFORM apply --auto-approve -var "deployment_id=$DEPLOYMENT_ID"
