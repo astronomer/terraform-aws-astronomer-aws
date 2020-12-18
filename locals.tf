@@ -3,7 +3,7 @@ resource "random_string" "suffix" {
   special = false
 }
 
-data aws_region current {}
+data "aws_region" "current" {}
 
 locals {
   cluster_name = "astronomer-${random_string.suffix.result}"

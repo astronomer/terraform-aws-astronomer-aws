@@ -5,7 +5,7 @@ appropriate terraform data source
 does not exist (look up ELB by vpc / tags)
 */
 
-resource random_id "collision_avoidance" {
+resource "random_id" "collision_avoidance" {
   byte_length = 5
 }
 

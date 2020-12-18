@@ -1,6 +1,6 @@
-variable deployment_id {}
+variable "deployment_id" {}
 
-# this is how the module can be called 
+# this is how the module can be called
 # if you want to create a VPC and the subnets
 # from scratch.
 module "astronomer_aws_with_vpc" {

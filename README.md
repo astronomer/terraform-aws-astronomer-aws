@@ -6,6 +6,6 @@
 
 ## Features
 
-* Private Kubernetes cluster
-* Aurora RDS Postgres
-* Bastion host for secure cluster administration
+- Private Kubernetes cluster
+- Aurora RDS Postgres
+- Bastion host for secure cluster administration

@@ -1,25 +1,21 @@
 #  Local .terraform directories
-**/.terraform/*
-
 # .tfstate files
-*.tfstate
-*.tfstate.*
-
 # .tfvars files
-*.tfvars
-
-providers.tf
-*.tfvars
-*.tfstate*
-kubeconfig/*
-tls_secrets/*
-kubeconfig*
-config-map*
-*auth_configmap*
-*kube_config
+**/.terraform/*
 *.log
+*.tfstate
+*.tfstate*
+*.tfstate.*
+*.tfvars
 *.tfvars*
 *.zip
-examples/*/.terraform
-*__pycache__*
 */__pycache__
+*__pycache__*
+*auth_configmap*
+*kube_config
+config-map*
+examples/*/.terraform
+kubeconfig*
+kubeconfig/*
+providers.tf
+tls_secrets/*
