@@ -1,11 +1,36 @@
+---
 repos:
-- repo: git://github.com/antonbabenko/pre-commit-terraform
-  rev: v1.11.0
-  hooks:
-    - id: terraform_fmt
-    - id: terraform_validate_no_variables
-#    - id: terraform_docs
-- repo: https://github.com/detailyang/pre-commit-shell
-  rev: 1.0.5
-  hooks:
-    - id: shell-lint
+  - repo: git://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.11.0
+    hooks:
+      - id: terraform_fmt
+      - id: terraform_validate_no_variables
+  - repo: https://github.com/detailyang/pre-commit-shell
+    rev: 1.0.5
+    hooks:
+      - id: shell-lint
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.4.0
+    hooks:
+      - id: check-case-conflict
+      - id: check-executables-have-shebangs
+      - id: check-merge-conflict
+      - id: check-yaml
+        args: ["--allow-multiple-documents"]
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: file-contents-sorter
+        args: ["--ignore-case", "--unique"]
+        files: "^.gitignore$"
+      - id: mixed-line-ending
+        args: ["--fix=lf"]
+      - id: no-commit-to-branch
+        args: ["-b", "master"]
+      - id: trailing-whitespace
+  - repo: https://github.com/astronomer/pre-commit-hooks
+    rev: fdcede7a5c8ea762c903f242279112161cf35d9f
+    hooks:
+      - id: remove-en-dashes
+      - id: remove-unicode-non-breaking-spaces
+      - id: remove-unicode-zero-width-non-breaking-spaces
+      - id: remove-unicode-zero-width-space
