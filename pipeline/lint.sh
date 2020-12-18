@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=SC2044
 set -xe
 
 TERRAFORM="${TERRAFORM:-terraform-0.12.29}"
