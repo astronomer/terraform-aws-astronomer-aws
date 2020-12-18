@@ -1,3 +1,4 @@
+#!/bin/bash
 set -xe
 
 TERRAFORM="${TERRAFORM:-terraform-0.12.29}"
