@@ -7,7 +7,6 @@ jobs:
       - image: quay.io/astronomer/ci-pre-commit:2020-12
     steps:
       - checkout
-      - run: terraform init
       - run: pre-commit run --all-files
   terraform_lint:
     docker:
