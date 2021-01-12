@@ -56,7 +56,7 @@ output "depended_on" {
 }
 
 output "windows_debug_box_password" {
-  value = var.enable_windows_box ? "${rsadecrypt(aws_instance.windows_debug_box[0].password_data, tls_private_key.ssh_key[0].private_key_pem)}" : "Not applicable - Windows box is not enabled."
+  value = var.enable_windows_box ? rsadecrypt(aws_instance.windows_debug_box[0].password_data, tls_private_key.ssh_key[0].private_key_pem) : "Not applicable - Windows box is not enabled."
 }
 
 output "windows_debug_box_hostname" {
