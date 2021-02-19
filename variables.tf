@@ -160,7 +160,7 @@ variable "local_ip" {
 variable "engine_version" {
   description = "Aurora database engine version."
   type        = string
-  default     = "10.7"
+  default     = "11.9"
 }
 
 variable "auto_minor_version_upgrade" {

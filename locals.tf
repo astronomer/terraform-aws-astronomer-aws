@@ -30,4 +30,7 @@ locals {
       "Deployment ID", var.deployment_id
     )
   )
+
+  db_parameter_group_family = join("", ["aurora-postgresql", split(".", var.engine_version)[0]])
+
 }
