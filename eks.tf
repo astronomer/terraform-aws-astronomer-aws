@@ -47,6 +47,19 @@ module "eks" {
       asg_max_size         = var.max_cluster_size
       key_name             = var.pub_key_for_worker_aws_key_pair != "" ? aws_key_pair.worker_group_key_name[0].key_name : ""
       autoscaling_enabled  = true
+
+      tags = [
+        {
+          "key"                 = "k8s.io/cluster-autoscaler/enabled"
+          "value"               = "true"
+          "propagate_at_launch" = true
+        },
+        {
+          "key"                 = "k8s.io/cluster-autoscaler/${local.cluster_name}"
+          "value"               = "owned"
+          "propagate_at_launch" = true
+        },
+      ]
     },
   ]
 
