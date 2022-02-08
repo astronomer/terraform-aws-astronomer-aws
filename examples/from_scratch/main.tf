@@ -1,14 +1,5 @@
 variable "deployment_id" {}
 
-provider "aws" {
-  region = "ap-southeast-1"
-}
-
-provider "acme" {
-  server_url = "https://acme-staging-v02.api.letsencrypt.org/directory"
-}
-
-
 # this is how the module can be called
 # if you want to create a VPC and the subnets
 # from scratch.
@@ -20,10 +11,10 @@ module "astronomer_aws_with_vpc" {
   # version = "<fill me in>" # Look here https://registry.terraform.io/modules/astronomer/astronomer-aws/aws
   deployment_id      = var.deployment_id
   admin_email        = "steven@astronomer.io"
-  route53_domain     = "sreteam090.sreteam002.astro-qa.link"
+  route53_domain     = "astronomer-development.com"
   management_api     = "public"
-  enable_bastion     = false
-  enable_windows_box = false
+  enable_bastion     = true
+  enable_windows_box = true
   tags = {
     "CI" = "true"
   }
