@@ -29,8 +29,8 @@ module "astronomer_aws_in_specific_subnet" {
   # same idea above - use a different 'source', and specify 'version'
   source         = "../.."
   deployment_id  = var.deployment_id
-  admin_email    = "steven@astronomer.io"
-  route53_domain = "astronomer-development.com"
+  admin_email    = "infrastructure@astronomer.io"
+  route53_domain = "astronomer-sre.com"
   management_api = "public"
 
   vpc_id          = module.vpc.vpc_id
