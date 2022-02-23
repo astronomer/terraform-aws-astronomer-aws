@@ -30,7 +30,7 @@ output "tls_key" {
 }
 
 output "tls_cert" {
-  value     = !var.lets_encrypt ? "Not applicable - lets_encrypt is not enabled." : <<EOF
+  value     = ! var.lets_encrypt ? "Not applicable - lets_encrypt is not enabled." : <<EOF
 ${acme_certificate.lets_encrypt[0].certificate_pem}
 ${acme_certificate.lets_encrypt[0].issuer_pem}
 EOF
