@@ -47,15 +47,15 @@ resource "aws_key_pair" "bastion_ssh_key" {
   public_key = tls_private_key.ssh_key[0].public_key_openssh
 }
 
-resource "local_file" "bastion_ssh_key_private" {
-  count             = var.enable_bastion ? 1 : 0
-  filename          = pathexpand(format("~/.ssh/%s_bastion_ssh_key", var.deployment_id))
-  sensitive_content = tls_private_key.ssh_key[0].private_key_pem
+resource "local_sensitive_file" "bastion_ssh_key_private" {
+  count    = var.enable_bastion ? 1 : 0
+  filename = pathexpand(format("~/.ssh/%s_bastion_ssh_key", var.deployment_id))
+  content  = tls_private_key.ssh_key[0].private_key_pem
 
   # make correct permissions on file
   # make correct permissions on file
   provisioner "local-exec" {
-    command = "chmod 400 ${local_file.bastion_ssh_key_private[0].filename}"
+    command = "chmod 400 ${local_sensitive_file.bastion_ssh_key_private[0].filename}"
   }
 }
 
