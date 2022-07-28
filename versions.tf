@@ -2,7 +2,8 @@ terraform {
   required_version = ">= 0.13"
   required_providers {
     acme = {
-      source = "terraform-providers/acme"
+      source  = "vancluever/acme"
+      version = "2.10.0"
     }
     archive = {
       source = "hashicorp/archive"
