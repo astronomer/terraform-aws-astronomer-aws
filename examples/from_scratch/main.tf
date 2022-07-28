@@ -20,7 +20,7 @@ module "astronomer_aws_with_vpc" {
   }
 }
 
-resource "local_file" "kubeconfig" {
+resource "local_sensitive_file" "kubeconfig" {
   depends_on = [module.astronomer_aws_with_vpc]
   content    = module.astronomer_aws_with_vpc.kubeconfig
   filename   = "${path.root}/kubeconfig-${var.deployment_id}"
@@ -29,7 +29,7 @@ resource "local_file" "kubeconfig" {
 terraform {
   required_providers {
     acme = {
-      source = "terraform-providers/acme"
+      source = "vancluever/acme"
     }
   }
   required_version = ">= 0.13"
