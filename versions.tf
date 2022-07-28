@@ -16,7 +16,7 @@ terraform {
       source = "hashicorp/http"
     }
     kubernetes = {
-      source = "hashicorp/kubernetes"
+      source  = "hashicorp/kubernetes"
       version = "~> 2.12"
     }
     local = {
