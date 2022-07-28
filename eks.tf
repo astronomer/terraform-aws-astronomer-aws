@@ -19,7 +19,6 @@ provider "kubernetes" {
   cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
   token                  = data.aws_eks_cluster_auth.cluster.token
   load_config_file       = false
-  version                = "~> 1.9"
 }
 
 module "eks" {
@@ -27,7 +26,7 @@ module "eks" {
   # copy of the pending PRs
   source = "terraform-aws-modules/eks/aws"
   # version of the eks module to use
-  version = "14.0.0"
+  version = "15.2.0"
   # source = "./modules/terraform-aws-eks"
 
   cluster_name           = local.cluster_name
