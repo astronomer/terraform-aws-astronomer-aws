@@ -11,7 +11,7 @@ module "astronomer_aws_with_vpc" {
   # version = "<fill me in>" # Look here https://registry.terraform.io/modules/astronomer/astronomer-aws/aws
   deployment_id      = var.deployment_id
   admin_email        = "infrastructure@astronomer.io"
-  route53_domain     = "astronomer-sre.com"
+  route53_domain     = "astro-qa.com"
   management_api     = "public"
   enable_bastion     = true
   enable_windows_box = true
