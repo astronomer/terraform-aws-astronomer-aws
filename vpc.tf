@@ -6,7 +6,7 @@
 module "vpc" {
 
   source  = "terraform-aws-modules/vpc/aws"
-  version = "2.58.0"
+  version = "2.59.0"
 
   create_vpc = var.vpc_id == "" ? true : false
 
